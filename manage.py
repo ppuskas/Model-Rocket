@@ -50,13 +50,21 @@ async def verify_permissions():
 async def check_disk_space():
     """Verify sufficient disk space"""
     import shutil
-    _, _, free = shutil.disk_usage("/workspace")
-    free_gb = free // (2**30)
-    if free_gb < 10:  # Less than 10GB free
-        print(f"Warning: Only {free_gb}GB free space available.")
-        print("Some model downloads might fail.")
-        return False
-    return True
+    import os
+    
+    # Use the ComfyUI base path to check disk space
+    base_path = get_default_path()
+    try:
+        _, _, free = shutil.disk_usage(os.path.dirname(base_path))
+        free_gb = free // (2**30)
+        if free_gb < 10:  # Less than 10GB free
+            print(f"Warning: Only {free_gb}GB free space available.")
+            print("Some model downloads might fail.")
+            return False
+        return True
+    except FileNotFoundError:
+        print(f"Warning: Could not check disk space for {base_path}")
+        return True  # Continue anyway
 
 async def main():
     parser = argparse.ArgumentParser(description='ComfyUI Model Manager for RunPod')
