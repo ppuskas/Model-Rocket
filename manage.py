@@ -93,10 +93,15 @@ async def main():
             return
 
     if args.scan:
+        print("Starting repository scan...")
         scanner = ModelScanner(test_mode=args.test)
         await scanner.scan_repository("https://github.com/comfyanonymous/ComfyUI")
-        scanner.save_model_database()
-        print("Scanning complete. Model database updated.")
+        db_file = "model_database.json"
+        scanner.save_model_database(db_file)
+        if os.path.exists(db_file):
+            print(f"Scanning complete. Model database saved to {db_file}")
+        else:
+            print("Warning: Model database file was not created")
     
     if args.setup or args.download:
         manager = ModelManager(base_path=args.path)
@@ -111,9 +116,12 @@ async def main():
 
     # Print summary
     print("\nRun Summary:")
-    print(f"Base Path: {args.path}")
+    print(f"Base Path: {str(Path(args.path))}")  # Normalize path separators
     print(f"Test Mode: {'Yes' if args.test else 'No'}")
-    print("Check model_scanner.log for detailed information")
+    print(f"Log File: {os.path.abspath('model_scanner.log')}")
+    
+    if os.path.exists("model_database.json"):
+        print(f"Model Database: {os.path.abspath('model_database.json')}")
 
 if __name__ == "__main__":
     asyncio.run(main())
