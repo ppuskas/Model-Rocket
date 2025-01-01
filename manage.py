@@ -5,18 +5,30 @@ import os
 from scripts.model_scanner import ModelScanner
 from scripts.model_manager import ModelManager
 
-# Default RunPod paths
-RUNPOD_COMFYUI_PATH = "/workspace/ComfyUI"
+import platform
 
-async def check_runpod_environment():
-    """Verify we're in a RunPod environment and paths exist"""
-    if not os.path.exists("/workspace"):
-        print("Warning: /workspace not found. Are you running this in RunPod?")
-        return False
+# Default paths
+DEFAULT_PATHS = {
+    "runpod": "/workspace/ComfyUI",
+    "windows": os.path.expanduser("~/ComfyUI"),
+    "linux": os.path.expanduser("~/ComfyUI"),
+    "darwin": os.path.expanduser("~/ComfyUI")
+}
+
+def get_default_path():
+    """Get default ComfyUI path based on environment"""
+    if os.path.exists("/workspace"):
+        return DEFAULT_PATHS["runpod"]
+    return DEFAULT_PATHS[platform.system().lower()]
+
+async def check_environment():
+    """Verify environment and paths exist"""
+    base_path = get_default_path()
     
-    if not os.path.exists(RUNPOD_COMFYUI_PATH):
-        print(f"Warning: {RUNPOD_COMFYUI_PATH} not found. ComfyUI may not be installed.")
-        return False
+    if not os.path.exists(base_path):
+        print(f"Warning: {base_path} not found. ComfyUI may not be installed.")
+        print(f"Creating directory: {base_path}")
+        os.makedirs(base_path, exist_ok=True)
     
     return True
 
@@ -56,16 +68,19 @@ async def main():
     
     args = parser.parse_args()
 
+    # Set default path based on environment
+    if args.path == RUNPOD_COMFYUI_PATH:
+        args.path = get_default_path()
+
     # Environment checks
     if not args.force:
         checks = await asyncio.gather(
-            check_runpod_environment(),
+            check_environment(),
             verify_permissions(),
             check_disk_space()
         )
         if not all(checks):
             print("\nEnvironment checks failed. Use --force to override.")
-            print("Note: Running outside RunPod might cause issues.\n")
             return
 
     if args.scan:

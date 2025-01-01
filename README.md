@@ -1,8 +1,31 @@
-# ComfyUI Model Manager for RunPod
+# ComfyUI Model Manager
 
-A tool designed specifically for managing ComfyUI models in RunPod environments. Automates the process of setting up directories, downloading models, and organizing dependencies.
+A tool for managing ComfyUI models in both local and RunPod environments. Automates the process of setting up directories, downloading models, and organizing dependencies.
 
-## Quick RunPod Start
+## Quick Start - Local Environment
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/comfyui-model-manager.git
+cd comfyui-model-manager
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run test mode (uses minimal downloads)
+python3 manage.py --scan --setup --download --test
+
+# 4. Verify setup worked
+# On Windows:
+dir %USERPROFILE%\ComfyUI\models
+type model_scanner.log
+
+# On Linux/Mac:
+ls ~/ComfyUI/models/
+cat model_scanner.log
+```
+
+## Quick Start - RunPod Environment
 
 ```bash
 # After starting your RunPod instance:
@@ -73,8 +96,10 @@ python3 manage.py --download
 
 ## Directory Structure
 
+The following structure will be created in your home directory (or /workspace on RunPod):
+
 ```
-/workspace/ComfyUI/
+ComfyUI/
 ├── models/
 │   ├── checkpoints/
 │   ├── clip/
@@ -95,7 +120,23 @@ python3 manage.py --download
 
 ## Troubleshooting
 
-### Common RunPod Issues
+### Common Issues
+
+#### Local Environment
+1. Permission Issues
+   - Ensure you have write permissions in your home directory
+   - On Windows, run as administrator if needed
+   - On Linux/Mac: `chmod -R u+w ~/ComfyUI`
+
+2. Space Issues
+   - Ensure at least 10GB free space
+   - Models are downloaded to your home directory
+
+3. Python Environment
+   - Use Python 3.8 or higher
+   - Consider using a virtual environment
+
+#### RunPod Environment
 
 1. Storage Space
    - Check available space: `df -h`
