@@ -16,7 +16,7 @@ cd comfyui-model-manager
 pip install -r requirements.txt
 
 # 3. Run test mode first (uses minimal downloads)
-python manage.py --scan --setup --download --test
+python3 manage.py --scan --setup --download --test
 
 # 4. Verify setup worked
 ls /workspace/ComfyUI/models/
@@ -56,19 +56,19 @@ python manage.py --scan --setup --download --test
 ### Full Mode
 ```bash
 # Run without test flag for full functionality
-python manage.py --scan --setup --download
+python3 manage.py --scan --setup --download
 ```
 
 ### Individual Steps
 ```bash
 # Just scan repositories
-python manage.py --scan
+python3 manage.py --scan
 
 # Just create directories
-python manage.py --setup
+python3 manage.py --setup
 
 # Just download models
-python manage.py --download
+python3 manage.py --download
 ```
 
 ## Directory Structure

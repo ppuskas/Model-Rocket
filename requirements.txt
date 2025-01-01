@@ -1,7 +1,17 @@
+# HTTP and async
 aiohttp==3.9.1
-beautifulsoup4==4.12.2
+aiofiles==23.2.1
 requests==2.31.0
+
+# Web parsing
+beautifulsoup4==4.12.2
+
+# Progress bars
 tqdm==4.66.1
+
+# Web framework (if needed)
 Flask==2.3.3
 Werkzeug==2.3.7
-aiofiles==23.2.1
+
+# Type hints
+typing-extensions>=4.0.0
