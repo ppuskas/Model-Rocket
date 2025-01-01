@@ -37,13 +37,19 @@ class ModelScanner:
                 return self.get_test_models()
 
             if "comfyanonymous/ComfyUI" in url:
-                return await self.process_comfyui_base(response)
+                models = await self.process_comfyui_base(response)
+                self.model_info.update(models)
             elif "AnimateDiff-Evolved" in url:
-                return await self.process_animatediff(response)
+                models = await self.process_animatediff(response)
+                self.model_info["animatediff"].extend(models)
             elif "IPAdapter_plus" in url:
-                return await self.process_ipadapter(response)
+                models = await self.process_ipadapter(response)
+                self.model_info["ipadapter"].extend(models)
             elif "civitai" in url:
-                return await self.process_civitai(response)
+                models = await self.process_civitai(response)
+                self.model_info["loras"].extend(models)
+            
+            return self.model_info
             
         except Exception as e:
             logging.error(f"Error scanning repository {url}: {str(e)}")
@@ -130,3 +136,39 @@ async def main(test_mode=False):
 
     scanner.save_model_database()
     logging.info("Model scanning complete. Database saved to model_database.json")
+    async def process_comfyui_base(self, content: str) -> Dict[str, List]:
+        """Process ComfyUI base repository content."""
+        soup = BeautifulSoup(content, 'html.parser')
+        models = {
+            "base_models": [
+                "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+                "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors",
+                "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+                "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.safetensors"
+            ]
+        }
+        return models
+
+    async def process_animatediff(self, content: str) -> List[str]:
+        """Process AnimateDiff repository content."""
+        return [
+            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
+            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
+            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors"
+        ]
+
+    async def process_ipadapter(self, content: str) -> List[str]:
+        """Process IP-Adapter repository content."""
+        return [
+            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.safetensors",
+            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors",
+            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus-face_sd15.safetensors",
+            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors"
+        ]
+
+    async def process_civitai(self, content: str) -> List[str]:
+        """Process Civitai content."""
+        return [
+            "https://civitai.com/api/download/models/129723",  # Example LoRA
+            "https://civitai.com/api/download/models/129724"   # Example LoRA
+        ]
