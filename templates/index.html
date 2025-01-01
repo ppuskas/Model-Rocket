@@ -9,6 +9,30 @@
             margin: 0 auto;
             padding: 20px;
         }
+        .model-selection {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .repo-section {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .model-group {
+            margin-left: 20px;
+        }
+        .model-item {
+            margin: 5px 0;
+        }
+        .select-all {
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 0.9em;
+            background-color: #6c757d;
+        }
         .info-box {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -50,10 +74,31 @@
             <p><strong>Test Mode:</strong> Use minimal downloads to verify setup (recommended for testing)</p>
             <p><strong>Warning:</strong> Downloading models requires significant disk space (~10GB+)</p>
         </div>
-        <form method="POST" onsubmit="return confirmDownload(this)">
+        <form method="POST" onsubmit="return confirmDownload(this)" id="actionForm">
             <button type="submit" name="action" value="scan">Scan Repositories</button>
             <button type="submit" name="action" value="setup">Setup Directories</button>
-            <button type="submit" name="action" value="download" class="download-btn">Download Models</button>
+            <div class="model-selection">
+                <h3>Available Models</h3>
+                {% if model_database %}
+                    {% for repo_type, models in model_database.items() %}
+                        <div class="repo-section">
+                            <h4>{{ repo_type|title }}</h4>
+                            <button type="button" class="select-all" onclick="toggleGroup('{{ repo_type }}')">Select All</button>
+                            <div class="model-group" id="{{ repo_type }}">
+                                {% for model in models %}
+                                    <div class="model-item">
+                                        <input type="checkbox" name="models[]" value="{{ model }}" id="model_{{ loop.index }}" checked>
+                                        <label for="model_{{ loop.index }}">{{ model }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No models found. Please run scan first.</p>
+                {% endif %}
+            </div>
+            <button type="submit" name="action" value="download" class="download-btn">Download Selected Models</button>
             <input type="checkbox" id="test_mode" name="test_mode" checked>
             <label for="test_mode">Test Mode</label>
         </form>
@@ -73,10 +118,24 @@
     {% endif %}
 <script>
 function confirmDownload(form) {
-    if (form.action.value === 'download' && !form.test_mode.checked) {
-        return confirm('Warning: You are about to download the full model set which requires significant disk space. Continue?');
+    if (form.action.value === 'download') {
+        const selectedCount = document.querySelectorAll('input[name="models[]"]:checked').length;
+        if (selectedCount === 0) {
+            alert('Please select at least one model to download');
+            return false;
+        }
+        if (!form.test_mode.checked) {
+            return confirm(`Warning: You are about to download ${selectedCount} models which requires significant disk space. Continue?`);
+        }
     }
     return true;
+}
+
+function toggleGroup(groupId) {
+    const group = document.getElementById(groupId);
+    const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
 }
 </script>
 </body>
