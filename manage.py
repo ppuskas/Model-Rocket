@@ -94,7 +94,8 @@ async def main():
 
     if args.scan:
         scanner = ModelScanner(test_mode=args.test)
-        await scanner.main(test_mode=args.test)
+        await scanner.scan_repository("https://github.com/comfyanonymous/ComfyUI")
+        scanner.save_model_database()
         print("Scanning complete. Model database updated.")
     
     if args.setup or args.download:
