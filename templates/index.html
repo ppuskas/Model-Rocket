@@ -88,8 +88,11 @@
                                 <div class="model-group" id="{{ repo_type|replace(' ', '_') }}">
                                     {% for model in models %}
                                         <div class="model-item">
-                                            <input type="checkbox" name="models[]" value="{{ model }}" id="model_{{ repo_type }}_{{ loop.index }}" checked>
-                                            <label for="model_{{ repo_type }}_{{ loop.index }}">{{ model }}</label>
+                                            <input type="checkbox" name="models[]" value="{{ model.url }}" id="model_{{ repo_type }}_{{ loop.index }}" checked>
+                                            <label for="model_{{ repo_type }}_{{ loop.index }}">
+                                                {{ model.name }} ({{ model.type }}, {{ model.size }})
+                                                {% if model.required %}<span style="color: red;">*Required</span>{% endif %}
+                                            </label>
                                         </div>
                                     {% endfor %}
                                 </div>
