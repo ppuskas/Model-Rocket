@@ -15,8 +15,12 @@ app = Flask(__name__)
 def load_model_database():
     try:
         with open('model_database.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
+            data = json.load(f)
+            # Ensure we have valid data
+            if not isinstance(data, dict):
+                return {}
+            return data
+    except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
 @app.route('/', methods=['GET', 'POST'])

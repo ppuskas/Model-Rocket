@@ -80,20 +80,33 @@
             <div class="model-selection">
                 <h3>Available Models</h3>
                 {% if model_database %}
-                    {% for repo_type, models in model_database.items() %}
-                        {% if models %}
+                    {% for category, models in model_database.items() %}
+                        {% if models and models|length > 0 %}
                             <div class="repo-section">
-                                <h4>{{ repo_type }}</h4>
-                                <button type="button" class="select-all" onclick="toggleGroup('{{ repo_type|replace(' ', '_') }}')">Select All</button>
-                                <div class="model-group" id="{{ repo_type|replace(' ', '_') }}">
+                                <h4>{{ category }}</h4>
+                                <button type="button" class="select-all" onclick="toggleGroup('{{ category|replace(' ', '_') }}')">Select All</button>
+                                <div class="model-group" id="{{ category|replace(' ', '_') }}">
                                     {% for model in models %}
-                                        <div class="model-item">
-                                            <input type="checkbox" name="models[]" value="{{ model.url }}" id="model_{{ repo_type }}_{{ loop.index }}" checked>
-                                            <label for="model_{{ repo_type }}_{{ loop.index }}">
-                                                {{ model.name }} ({{ model.type }}, {{ model.size }})
-                                                {% if model.required %}<span style="color: red;">*Required</span>{% endif %}
-                                            </label>
-                                        </div>
+                                        {% if model.name and model.url %}
+                                            <div class="model-item">
+                                                <input type="checkbox" 
+                                                       name="models[]" 
+                                                       value="{{ model.url }}" 
+                                                       id="model_{{ category }}_{{ loop.index }}" 
+                                                       {% if model.required %}checked{% endif %}>
+                                                <label for="model_{{ category }}_{{ loop.index }}">
+                                                    {{ model.name }}
+                                                    {% if model.type or model.size %}
+                                                        ({% if model.type %}{{ model.type }}{% endif %}
+                                                        {% if model.type and model.size %}, {% endif %}
+                                                        {% if model.size %}{{ model.size }}{% endif %})
+                                                    {% endif %}
+                                                    {% if model.required %}
+                                                        <span style="color: red;">*Required</span>
+                                                    {% endif %}
+                                                </label>
+                                            </div>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>

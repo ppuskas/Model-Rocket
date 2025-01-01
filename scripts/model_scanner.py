@@ -117,8 +117,19 @@ class ModelScanner:
 
     def save_model_database(self, output_file: str = "model_database.json"):
         """Save scanned model information to JSON file."""
+        # Restructure data for better frontend display
+        display_data = {
+            "Base Models": self.model_info["base_models"],
+            "AnimateDiff Models": self.model_info["animatediff"],
+            "IP-Adapter Models": self.model_info["ipadapter"],
+            "LoRA Models": self.model_info["loras"],
+            "Motion Modules": self.model_info["motion_modules"]
+        }
+        # Remove empty categories
+        display_data = {k: v for k, v in display_data.items() if v}
+        
         with open(output_file, 'w') as f:
-            json.dump(self.model_info, f, indent=2)
+            json.dump(display_data, f, indent=2)
 
 async def main(test_mode=False):
     scanner = ModelScanner(test_mode=test_mode)
