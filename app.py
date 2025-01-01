@@ -15,7 +15,14 @@ app = Flask(__name__)
 def load_model_database():
     try:
         with open('model_database.json', 'r') as f:
-            return json.load(f)
+            data = json.load(f)
+            # Restructure data into repository groups
+            grouped_data = {}
+            for model_type, models in data.items():
+                if isinstance(models, list):  # Ensure we're working with a list
+                    repo_name = model_type.replace('_', ' ').title()
+                    grouped_data[repo_name] = models
+            return grouped_data
     except FileNotFoundError:
         return {}
 

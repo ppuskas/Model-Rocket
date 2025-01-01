@@ -81,18 +81,20 @@
                 <h3>Available Models</h3>
                 {% if model_database %}
                     {% for repo_type, models in model_database.items() %}
-                        <div class="repo-section">
-                            <h4>{{ repo_type|title }}</h4>
-                            <button type="button" class="select-all" onclick="toggleGroup('{{ repo_type }}')">Select All</button>
-                            <div class="model-group" id="{{ repo_type }}">
-                                {% for model in models %}
-                                    <div class="model-item">
-                                        <input type="checkbox" name="models[]" value="{{ model }}" id="model_{{ loop.index }}" checked>
-                                        <label for="model_{{ loop.index }}">{{ model }}</label>
-                                    </div>
-                                {% endfor %}
+                        {% if models %}
+                            <div class="repo-section">
+                                <h4>{{ repo_type }}</h4>
+                                <button type="button" class="select-all" onclick="toggleGroup('{{ repo_type|replace(' ', '_') }}')">Select All</button>
+                                <div class="model-group" id="{{ repo_type|replace(' ', '_') }}">
+                                    {% for model in models %}
+                                        <div class="model-item">
+                                            <input type="checkbox" name="models[]" value="{{ model }}" id="model_{{ repo_type }}_{{ loop.index }}" checked>
+                                            <label for="model_{{ repo_type }}_{{ loop.index }}">{{ model }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <p>No models found. Please run scan first.</p>
