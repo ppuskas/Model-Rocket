@@ -136,39 +136,114 @@ async def main(test_mode=False):
 
     scanner.save_model_database()
     logging.info("Model scanning complete. Database saved to model_database.json")
-    async def process_comfyui_base(self, content: str) -> Dict[str, List]:
+    async def process_comfyui_base(self, content: str) -> Dict[str, List[Dict]]:
         """Process ComfyUI base repository content."""
-        soup = BeautifulSoup(content, 'html.parser')
-        models = {
-            "base_models": [
-                "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
-                "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors",
-                "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
-                "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.safetensors"
-            ]
-        }
-        return models
+        base_models = [
+            {
+                "name": "SDXL 1.0 Base",
+                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+                "type": "checkpoint",
+                "size": "6.46GB",
+                "required": True
+            },
+            {
+                "name": "SDXL 1.0 Refiner",
+                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors",
+                "type": "checkpoint",
+                "size": "6.46GB",
+                "required": False
+            },
+            {
+                "name": "SD 1.5",
+                "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+                "type": "checkpoint",
+                "size": "4.27GB",
+                "required": False
+            },
+            {
+                "name": "SD 2.1",
+                "url": "https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.safetensors",
+                "type": "checkpoint",
+                "size": "4.27GB",
+                "required": False
+            }
+        ]
+        return {"base_models": base_models}
 
-    async def process_animatediff(self, content: str) -> List[str]:
+    async def process_animatediff(self, content: str) -> List[Dict]:
         """Process AnimateDiff repository content."""
         return [
-            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
-            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
-            "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors"
+            {
+                "name": "MM SD v1.4",
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
+                "type": "motion_module",
+                "size": "1.62GB",
+                "required": False
+            },
+            {
+                "name": "MM SD v1.5", 
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
+                "type": "motion_module",
+                "size": "1.62GB",
+                "required": False
+            },
+            {
+                "name": "MM SDXL v1.0",
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors",
+                "type": "motion_module", 
+                "size": "1.62GB",
+                "required": False
+            }
         ]
 
-    async def process_ipadapter(self, content: str) -> List[str]:
+    async def process_ipadapter(self, content: str) -> List[Dict]:
         """Process IP-Adapter repository content."""
         return [
-            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.safetensors",
-            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors",
-            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus-face_sd15.safetensors",
-            "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors"
+            {
+                "name": "IP-Adapter SD1.5",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            },
+            {
+                "name": "IP-Adapter Plus SD1.5",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            },
+            {
+                "name": "IP-Adapter Plus Face SD1.5",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus-face_sd15.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            },
+            {
+                "name": "IP-Adapter SDXL",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            }
         ]
 
-    async def process_civitai(self, content: str) -> List[str]:
+    async def process_civitai(self, content: str) -> List[Dict]:
         """Process Civitai content."""
         return [
-            "https://civitai.com/api/download/models/129723",  # Example LoRA
-            "https://civitai.com/api/download/models/129724"   # Example LoRA
+            {
+                "name": "Example LoRA 1",
+                "url": "https://civitai.com/api/download/models/129723",
+                "type": "lora",
+                "size": "150MB",
+                "required": False
+            },
+            {
+                "name": "Example LoRA 2", 
+                "url": "https://civitai.com/api/download/models/129724",
+                "type": "lora",
+                "size": "150MB",
+                "required": False
+            }
         ]
