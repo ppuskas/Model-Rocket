@@ -34,7 +34,8 @@ async def check_environment():
 
 async def verify_permissions():
     """Check if we have write permissions in the required directories"""
-    test_path = os.path.join(RUNPOD_COMFYUI_PATH, "models", "test_write")
+    base_path = get_default_path()
+    test_path = os.path.join(base_path, "models", "test_write")
     try:
         os.makedirs(os.path.dirname(test_path), exist_ok=True)
         with open(test_path, 'w') as f:
@@ -63,13 +64,13 @@ async def main():
     parser.add_argument('--download', action='store_true', help='Download models')
     parser.add_argument('--setup', action='store_true', help='Create directory structure')
     parser.add_argument('--test', action='store_true', help='Run in test mode with minimal downloads')
-    parser.add_argument('--path', default=RUNPOD_COMFYUI_PATH, help='Base path for ComfyUI')
+    parser.add_argument('--path', default=None, help='Base path for ComfyUI')
     parser.add_argument('--force', action='store_true', help='Skip environment checks')
     
     args = parser.parse_args()
 
     # Set default path based on environment
-    if args.path == RUNPOD_COMFYUI_PATH:
+    if args.path is None:
         args.path = get_default_path()
 
     # Environment checks
