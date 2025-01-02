@@ -299,6 +299,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Enhanced model details toggle
+    document.querySelectorAll('.model-item-label').forEach(label => {
+        label.addEventListener('click', function(e) {
+            const modelItem = this.closest('.model-item');
+            const details = modelItem.querySelector('.model-details');
+            
+            if (details) {
+                const isVisible = details.style.display === 'block';
+                details.style.display = isVisible ? 'none' : 'block';
+                modelItem.classList.toggle('open', !isVisible);
+            }
+        });
+    });
+
+    // Enhanced model details toggle
     document.querySelectorAll('.twirl-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             e.stopPropagation(); // Prevent event from bubbling up
