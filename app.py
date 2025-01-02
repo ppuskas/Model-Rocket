@@ -33,7 +33,8 @@ def load_model_database():
                 "AnimateDiff Models": db.get("animatediff", []),
                 "IP-Adapter Models": db.get("ipadapter", []),
                 "LoRA Models": db.get("loras", []),
-                "Motion Modules": db.get("motion_modules", [])
+                "Motion Modules": db.get("motion_modules", []),
+                "Motion LoRAs": db.get("motion_loras", [])  # Add motion_loras category
             }
             # Remove empty categories
             return {k: v for k, v in display_data.items() if v}
