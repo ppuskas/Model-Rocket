@@ -91,7 +91,8 @@ def index():
                          message=message, 
                          error=error, 
                          summary=summary,
-                         model_database=model_database)
+                         model_database=model_database,
+                         test_mode='test_mode' in request.form)
 
 @app.route('/test')
 def test_page():
