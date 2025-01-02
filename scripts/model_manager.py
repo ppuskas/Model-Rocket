@@ -34,22 +34,32 @@ class ModelManager:
 
     def get_target_directory(self, model_type: str, url: str = None) -> Path:
         """Determine target directory based on model type and optionally URL."""
-        # First try to detect type from URL if unknown
-        if model_type == "unknown" and url:
-            if "ip-adapter" in url.lower():
-                model_type = "ipadapter"
-            elif "motion" in url.lower():
-                model_type = "motion_module"
-            elif "lora" in url.lower():
-                model_type = "lora"
-            
         type_to_dir = {
             "checkpoint": self.base_path / "models/checkpoints",
             "motion_module": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-module",
+            "motion_lora": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-lora",
             "lora": self.base_path / "models/loras", 
             "ipadapter": self.base_path / "custom_nodes/ComfyUI_IPAdapter_plus/models/ip-adapter",
             "vae": self.base_path / "models/vae",
+            "controlnet": self.base_path / "models/controlnet",
+            "clip": self.base_path / "models/clip",
+            "clip_vision": self.base_path / "models/clip_vision"
         }
+        
+        # Additional type detection from URL if needed
+        if model_type == "unknown" and url:
+            url_lower = url.lower()
+            if "motion-lora" in url_lower or ("motion" in url_lower and "lora" in url_lower):
+                model_type = "motion_lora"
+            elif "motion" in url_lower:
+                model_type = "motion_module"
+            elif "controlnet" in url_lower:
+                model_type = "controlnet"
+            elif "clip" in url_lower and "vision" in url_lower:
+                model_type = "clip_vision"
+            elif "clip" in url_lower:
+                model_type = "clip"
+                
         return type_to_dir.get(model_type, self.base_path / "models/other")
 
     async def download_file(self, url: str, target_path: Path):
