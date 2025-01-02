@@ -155,11 +155,6 @@
                                                            {% if model.required %}checked{% endif %}>
                                                     <label for="model_{{ category }}_{{ loop.index }}" class="model-toggle">
                                                         <span class="toggle-icon">▶</span>
-                                                        <input type="checkbox" 
-                                                               name="models[]" 
-                                                               value="{{ model.url }}" 
-                                                               id="model_{{ category }}_{{ loop.index }}" 
-                                                               {% if model.required %}checked{% endif %}>
                                                         {{ model.name }}
                                                         {% if model.type or model.size %}
                                                             ({% if model.type %}{{ model.type }}{% endif %}
