@@ -131,6 +131,101 @@
         "size": "335MB",
         "required": false
       }
+    ],
+    "AnimateDiff Models": [
+      {
+        "name": "MM SD v1.4",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
+        "type": "motion_module",
+        "size": "1.62GB",
+        "required": false
+      },
+      {
+        "name": "MM SD v1.5",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors", 
+        "type": "motion_module",
+        "size": "1.62GB",
+        "required": false
+      },
+      {
+        "name": "MM SD v1.5 v2",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15_v2.safetensors",
+        "type": "motion_module",
+        "size": "1.62GB", 
+        "required": false
+      },
+      {
+        "name": "MM Stabilized Mid",
+        "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_mid.safetensors",
+        "type": "motion_module",
+        "size": "1.62GB",
+        "required": false
+      },
+      {
+        "name": "MM Stabilized High",
+        "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_high.safetensors",
+        "type": "motion_module", 
+        "size": "1.62GB",
+        "required": false
+      }
+    ],
+    "Motion LoRA Models": [
+      {
+        "name": "Motion LoRA Zoom In",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomIn.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Zoom Out", 
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomOut.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Pan Left",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanLeft.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Pan Right",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanRight.safetensors", 
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Tilt Up",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_TiltUp.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Tilt Down",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_TiltDown.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Roll Clockwise",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingClockwise.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      },
+      {
+        "name": "Motion LoRA Roll Counter-Clockwise",
+        "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingAnticlockwise.safetensors",
+        "type": "motion_lora",
+        "size": "50MB",
+        "required": false
+      }
     ]
   }
 }
