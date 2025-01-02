@@ -178,10 +178,14 @@
         .twirl-toggle {
             cursor: pointer;
             margin-left: 10px;
+            display: inline-block;
             transition: transform 0.3s ease;
-        }
-        .model-item.open .twirl-toggle {
-            transform: rotate(90deg);
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            user-select: none;
         }
     </style>
 </head>
@@ -213,15 +217,17 @@
                                                        id="model_{{ category }}_{{ loop.index }}" 
                                                        {% if model.required %}checked{% endif %}>
                                                 <label for="model_{{ category }}_{{ loop.index }}" class="model-item-label">
-                                                    {{ model.name }}
-                                                    {% if model.type or model.size %}
-                                                        ({{ model.type }}, {{ model.size }})
-                                                    {% endif %}
-                                                    {% if model.required %}
-                                                        <span style="color: red;">*Required</span>
-                                                    {% endif %}
+                                                    <span class="model-name">
+                                                        {{ model.name }}
+                                                        {% if model.type or model.size %}
+                                                            ({{ model.type }}, {{ model.size }})
+                                                        {% endif %}
+                                                        {% if model.required %}
+                                                            <span style="color: red;">*Required</span>
+                                                        {% endif %}
+                                                    </span>
+                                                    <span class="twirl-toggle">▶</span>
                                                 </label>
-                                                <span class="twirl-toggle">▶</span>
                                                 <div class="model-details" style="display: none;">
                                                     <div class="model-info">
                                                         <p><strong>Source URL:</strong> <a href="{{ model.url }}" target="_blank">{{ model.url }}</a></p>
@@ -284,47 +290,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Enhanced model details toggle
-    document.querySelectorAll('.model-item-label').forEach(label => {
-        label.addEventListener('click', function(e) {
-            const modelItem = this.closest('.model-item');
+    // Single event listener for model detail toggles
+    document.addEventListener('click', function(e) {
+        const toggle = e.target.closest('.twirl-toggle');
+        if (toggle) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const modelItem = toggle.closest('.model-item');
             const details = modelItem.querySelector('.model-details');
             
             if (details) {
                 const isVisible = details.style.display === 'block';
+                
+                // Toggle display
                 details.style.display = isVisible ? 'none' : 'block';
+                
+                // Animate opacity
+                details.style.opacity = isVisible ? '0' : '1';
+                
+                // Toggle arrow rotation
+                toggle.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
+                
+                // Toggle open class
                 modelItem.classList.toggle('open', !isVisible);
             }
-        });
-    });
-
-    // Enhanced model details toggle
-    document.querySelectorAll('.model-item-label').forEach(label => {
-        label.addEventListener('click', function(e) {
-            const modelItem = this.closest('.model-item');
-            const details = modelItem.querySelector('.model-details');
-            
-            if (details) {
-                const isVisible = details.style.display === 'block';
-                details.style.display = isVisible ? 'none' : 'block';
-                modelItem.classList.toggle('open', !isVisible);
-            }
-        });
-    });
-
-    // Enhanced model details toggle
-    document.querySelectorAll('.twirl-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent event from bubbling up
-            const modelItem = this.closest('.model-item');
-            const details = modelItem.querySelector('.model-details');
-            
-            if (details) {
-                const isVisible = details.style.display === 'block';
-                details.style.display = isVisible ? 'none' : 'block';
-                modelItem.classList.toggle('open', !isVisible);
-            }
-        });
+        }
     });
 });
 
