@@ -13,10 +13,63 @@
             "type": "checkpoint",
             "size": "4.27GB",
             "required": false
+        },
+        {
+            "name": "Realistic Vision V5.1",
+            "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE/resolve/main/Realistic_Vision_V5.1.safetensors",
+            "type": "checkpoint",
+            "size": "4.27GB",
+            "required": false
         }
     ],
-    "animatediff": [],
-    "ipadapter": [],
+    "controlnet": [
+        {
+            "name": "ControlNet Canny",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth",
+            "type": "controlnet",
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Depth",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1p_sd15_depth.pth",
+            "type": "controlnet",
+            "size": "1.62GB",
+            "required": false
+        }
+    ],
+    "animatediff": [
+        {
+            "name": "MM SD v1.5",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
+            "type": "motion_module",
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "MM SDXL v1.0",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors",
+            "type": "motion_module",
+            "size": "1.62GB",
+            "required": false
+        }
+    ],
+    "ipadapter": [
+        {
+            "name": "IP-Adapter SD1.5",
+            "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.safetensors",
+            "type": "ipadapter",
+            "size": "402MB",
+            "required": false
+        },
+        {
+            "name": "IP-Adapter SDXL",
+            "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors",
+            "type": "ipadapter",
+            "size": "402MB",
+            "required": false
+        }
+    ],
     "loras": [],
     "motion_modules": []
 }
