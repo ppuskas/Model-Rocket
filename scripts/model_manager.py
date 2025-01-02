@@ -34,10 +34,19 @@ class ModelManager:
 
     def get_target_directory(self, model_type: str) -> Path:
         """Determine target directory based on model type."""
+        # First try to detect type from URL if unknown
+        if model_type == "unknown":
+            if "ip-adapter" in str(url).lower():
+                model_type = "ipadapter"
+            elif "motion" in str(url).lower():
+                model_type = "motion_module"
+            elif "lora" in str(url).lower():
+                model_type = "lora"
+            
         type_to_dir = {
             "checkpoint": self.base_path / "models/checkpoints",
             "motion_module": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-module",
-            "lora": self.base_path / "models/loras",
+            "lora": self.base_path / "models/loras", 
             "ipadapter": self.base_path / "custom_nodes/ComfyUI_IPAdapter_plus/models/ip-adapter",
             "vae": self.base_path / "models/vae",
         }
