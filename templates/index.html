@@ -27,6 +27,25 @@
         .model-item {
             margin: 5px 0;
         }
+        .model-details {
+            margin-left: 20px;
+            font-size: 0.9em;
+            color: #666;
+            display: none;
+        }
+        .model-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+        .model-toggle:before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 5px;
+            transition: transform 0.2s;
+        }
+        .model-toggle.expanded:before {
+            transform: rotate(90deg);
+        }
         .select-all {
             padding: 5px 10px;
             margin: 5px;
@@ -87,22 +106,27 @@
                                     {% for model in models %}
                                         {% if model.name and model.url %}
                                             <div class="model-item">
-                                                <input type="checkbox" 
-                                                       name="models[]" 
-                                                       value="{{ model.url }}" 
-                                                       id="model_{{ category }}_{{ loop.index }}" 
-                                                       {% if model.required %}checked{% endif %}>
-                                                <label for="model_{{ category }}_{{ loop.index }}">
-                                                    {{ model.name }}
-                                                    {% if model.type or model.size %}
-                                                        ({% if model.type %}{{ model.type }}{% endif %}
-                                                        {% if model.type and model.size %}, {% endif %}
-                                                        {% if model.size %}{{ model.size }}{% endif %})
-                                                    {% endif %}
-                                                    {% if model.required %}
-                                                        <span style="color: red;">*Required</span>
-                                                    {% endif %}
-                                                </label>
+                                                <div class="model-item">
+                                                    <input type="checkbox" 
+                                                           name="models[]" 
+                                                           value="{{ model.url }}" 
+                                                           id="model_{{ category }}_{{ loop.index }}" 
+                                                           {% if model.required %}checked{% endif %}>
+                                                    <label for="model_{{ category }}_{{ loop.index }}" class="model-toggle">
+                                                        {{ model.name }}
+                                                        {% if model.type or model.size %}
+                                                            ({% if model.type %}{{ model.type }}{% endif %}
+                                                            {% if model.type and model.size %}, {% endif %}
+                                                            {% if model.size %}{{ model.size }}{% endif %})
+                                                        {% endif %}
+                                                        {% if model.required %}
+                                                            <span style="color: red;">*Required</span>
+                                                        {% endif %}
+                                                    </label>
+                                                    <div class="model-details">
+                                                        Source URL: <a href="{{ model.url }}" target="_blank">{{ model.url }}</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
@@ -133,6 +157,24 @@
     </div>
     {% endif %}
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.model-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            // Prevent checkbox from being affected
+            if (e.target === this) {
+                e.preventDefault();
+                this.classList.toggle('expanded');
+                const details = this.nextElementSibling;
+                if (details.style.display === 'none' || !details.style.display) {
+                    details.style.display = 'block';
+                } else {
+                    details.style.display = 'none';
+                }
+            }
+        });
+    });
+});
+
 function confirmDownload(form) {
     if (form.action.value === 'download') {
         const selectedCount = document.querySelectorAll('input[name="models[]"]:checked').length;
