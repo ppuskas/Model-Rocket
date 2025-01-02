@@ -6,12 +6,6 @@ body {
     background-color: #f5f5f5;
 }
 
-.version {
-    font-size: 0.5em;
-    color: #6c757d;
-    vertical-align: middle;
-    margin-left: 10px;
-}
 
 .container {
     background-color: white;
