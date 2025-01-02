@@ -55,25 +55,16 @@
             margin-left: 20px;
             font-size: 0.9em;
             color: #666;
-            display: none;
+            display: block;
         }
-        .model-toggle {
+        .model-item-label {
             cursor: pointer;
             user-select: none;
             display: flex;
             align-items: center;
             gap: 5px;
         }
-        .model-toggle .toggle-icon {
-            display: inline-block;
-            width: 20px;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .model-toggle.expanded .toggle-icon {
-            transform: rotate(90deg);
-        }
-        .model-toggle:hover {
+        .model-item-label:hover {
             text-decoration: underline;
         }
         .progress-bar {
@@ -186,7 +177,6 @@
                             <div class="repo-section">
                                 <h4>{{ category }}</h4>
                                 <button type="button" class="select-all" onclick="toggleGroup('{{ category|replace(' ', '_') }}')">Select All</button>
-                                <button type="button" class="collapse-btn" data-group="{{ category|replace(' ', '_') }}">▼</button>
                                 <div class="model-group" id="{{ category|replace(' ', '_') }}">
                                     {% for model in models %}
                                         {% if model.name and model.url %}
@@ -197,8 +187,7 @@
                                                            value="{{ model.url }}" 
                                                            id="model_{{ category }}_{{ loop.index }}" 
                                                            {% if model.required %}checked{% endif %}>
-                                                    <label for="model_{{ category }}_{{ loop.index }}" class="model-toggle">
-                                                        <span class="toggle-icon">▶</span>
+                                                    <label for="model_{{ category }}_{{ loop.index }}" class="model-item-label">
                                                         {{ model.name }}
                                                         {% if model.type or model.size %}
                                                             ({% if model.type %}{{ model.type }}{% endif %}
@@ -485,69 +474,6 @@ function toggleGroup(groupId) {
     checkboxes.forEach(cb => cb.checked = !allChecked);
 }
 
-function toggleCollapse(groupId) {
-    const group = document.getElementById(groupId);
-    const btn = document.querySelector(`button[data-group="${groupId}"]`);
-    if (!group || !btn) return;
-    
-    const isCollapsed = group.style.display === 'none';
-    group.style.display = isCollapsed ? 'block' : 'none';
-    btn.textContent = isCollapsed ? '▼' : '▶';
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle model toggles
-    document.querySelectorAll('.model-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            // Only handle clicks on the toggle icon or label text
-            if (e.target.tagName === 'INPUT') {
-                return; // Let checkbox handle itself
-            }
-            
-            e.preventDefault(); // Prevent checkbox toggle on label click
-            
-            // Toggle expansion state
-            this.classList.toggle('expanded');
-            
-            // Find and toggle details visibility
-            const details = this.closest('.model-item').querySelector('.model-details');
-            if (details) {
-                details.style.display = this.classList.contains('expanded') ? 'block' : 'none';
-            }
-        });
-    });
-
-    // Handle group collapse buttons
-    document.querySelectorAll('.collapse-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const groupId = this.getAttribute('data-group');
-            toggleCollapse(groupId);
-        });
-    });
-});
-
-// Restore collapse states on page load
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.model-group').forEach(group => {
-        const groupId = group.id;
-        const savedState = localStorage.getItem('group_' + groupId);
-        if (savedState === 'collapsed') {
-            toggleCollapse(groupId);
-        }
-    });
-});
-
-// Initialize collapse state on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const groups = document.querySelectorAll('.model-group');
-    groups.forEach(group => {
-        const groupId = group.id;
-        // Set initial state as expanded
-        group.style.display = 'block';
-        const btn = document.getElementById('collapse_' + groupId);
-        if (btn) btn.textContent = '▼';
-    });
-});
 </script>
 </body>
 </html>
