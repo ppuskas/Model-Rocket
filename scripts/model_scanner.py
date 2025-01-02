@@ -104,9 +104,12 @@ class ModelScanner:
 
     def determine_type(self, url: str) -> str:
         """Determine model type based on URL and filename."""
-        if "motion" in url.lower():
+        url_lower = url.lower()
+        if "motion" in url_lower and "lora" in url_lower:
+            return "motion_lora"
+        elif "motion" in url_lower:
             return "motion_module"
-        elif "lora" in url.lower():
+        elif "lora" in url_lower:
             return "lora"
         elif "ipadapter" in url.lower():
             return "ipadapter"
