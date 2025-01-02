@@ -36,15 +36,10 @@
         .model-toggle {
             cursor: pointer;
             user-select: none;
-        }
-        .model-toggle:before {
-            content: '▶';
             display: inline-block;
-            margin-right: 5px;
-            transition: transform 0.2s;
         }
-        .model-toggle.expanded:before {
-            transform: rotate(90deg);
+        .model-toggle:hover {
+            text-decoration: underline;
         }
         .progress-bar {
             width: 100%;
@@ -197,17 +192,14 @@
     {% endif %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Model details toggle
     document.querySelectorAll('.model-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            // Prevent checkbox from being affected
-            if (e.target === this) {
+            if (e.target.tagName !== 'INPUT') {  // Don't trigger on checkbox click
                 e.preventDefault();
-                this.classList.toggle('expanded');
                 const details = this.nextElementSibling;
-                if (details.style.display === 'none' || !details.style.display) {
-                    details.style.display = 'block';
-                } else {
-                    details.style.display = 'none';
+                if (details && details.classList.contains('model-details')) {
+                    details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
                 }
             }
         });
@@ -344,11 +336,26 @@ function toggleGroup(groupId) {
 function toggleCollapse(groupId) {
     const group = document.getElementById(groupId);
     const btn = document.getElementById('collapse_' + groupId);
-    const isCollapsed = group.style.display === 'none';
+    if (!group || !btn) return;
     
+    const isCollapsed = group.style.display === 'none';
     group.style.display = isCollapsed ? 'block' : 'none';
     btn.textContent = isCollapsed ? '▼' : '▶';
+    
+    // Save state to localStorage
+    localStorage.setItem('group_' + groupId, isCollapsed ? 'expanded' : 'collapsed');
 }
+
+// Restore collapse states on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.model-group').forEach(group => {
+        const groupId = group.id;
+        const savedState = localStorage.getItem('group_' + groupId);
+        if (savedState === 'collapsed') {
+            toggleCollapse(groupId);
+        }
+    });
+});
 
 // Initialize collapse state on page load
 document.addEventListener('DOMContentLoaded', function() {
