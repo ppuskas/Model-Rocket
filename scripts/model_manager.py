@@ -63,17 +63,26 @@ class ModelManager:
         return type_to_dir.get(model_type, self.base_path / "models/other")
 
     async def download_file(self, url: str, target_path: Path):
-        """Download file with progress bar."""
+        """Download file with progress bar and progress tracking."""
+        from app import download_progress
+        
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 total_size = int(response.headers.get('content-length', 0))
                 target_path.parent.mkdir(parents=True, exist_ok=True)
                 
+                downloaded = 0
                 with open(target_path, 'wb') as f:
                     with tqdm(total=total_size, unit='B', unit_scale=True) as pbar:
                         async for chunk in response.content.iter_chunked(8192):
                             f.write(chunk)
+                            downloaded += len(chunk)
                             pbar.update(len(chunk))
+                            
+                            # Update progress percentage
+                            if total_size > 0:
+                                progress = int((downloaded / total_size) * 100)
+                                download_progress[url] = progress
 
     async def download_models(self, model_types: List[str] = None, model_urls: List[str] = None, test_mode: bool = False):
         """Download selected model types or specific model URLs."""

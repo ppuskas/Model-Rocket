@@ -6,6 +6,9 @@ import os
 import json
 from scripts.model_manager import ModelManager
 
+# Global dictionary to track download progress
+download_progress = {}
+
 # Add the project root to Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -42,6 +45,11 @@ def load_model_database():
                 }
             ]
         }
+
+@app.route('/download_progress')
+def get_download_progress():
+    """Return current download progress for all models"""
+    return jsonify(download_progress)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
