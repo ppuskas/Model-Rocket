@@ -349,7 +349,7 @@ function toggleCollapse(groupId) {
     const btn = document.getElementById('collapse_' + groupId);
     if (!group || !btn) return;
     
-    const isCollapsed = group.style.display === 'none';
+    const isCollapsed = group.style.display === 'none' || !group.style.display;
     group.style.display = isCollapsed ? 'block' : 'none';
     btn.textContent = isCollapsed ? '▼' : '▶';
     
@@ -357,18 +357,41 @@ function toggleCollapse(groupId) {
     localStorage.setItem('group_' + groupId, isCollapsed ? 'expanded' : 'collapsed');
 }
 
-// Add click handler for model toggles
+// Add click handlers for model toggles and group collapse
 document.addEventListener('DOMContentLoaded', function() {
+    // Handle individual model toggles
     document.querySelectorAll('.model-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            if (e.target.tagName !== 'INPUT') {
-                this.classList.toggle('expanded');
-                const details = this.nextElementSibling;
-                if (details && details.classList.contains('model-details')) {
-                    details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
-                }
+            // Prevent triggering on checkbox clicks
+            if (e.target.tagName === 'INPUT') {
+                e.stopPropagation();
+                return;
+            }
+            
+            this.classList.toggle('expanded');
+            const details = this.nextElementSibling;
+            if (details && details.classList.contains('model-details')) {
+                details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
             }
         });
+    });
+
+    // Handle group collapse buttons
+    document.querySelectorAll('.collapse-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const groupId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            toggleCollapse(groupId);
+        });
+    });
+
+    // Restore collapse states
+    document.querySelectorAll('.model-group').forEach(group => {
+        const groupId = group.id;
+        const savedState = localStorage.getItem('group_' + groupId);
+        if (savedState === 'collapsed') {
+            toggleCollapse(groupId);
+        }
     });
 });
 
