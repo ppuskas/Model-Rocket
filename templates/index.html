@@ -35,7 +35,7 @@
                                                     <span class="model-name">
                                                         {{ model.name }}
                                                         {% if model.type or model.size %}
-                                                            ({{ model.type }}, {{ model.size }})
+                                                            <span class="model-type-size">({{ model.type }}, {{ model.size }})</span>
                                                         {% endif %}
                                                         {% if model.required %}
                                                             <span style="color: red;">*Required</span>
@@ -238,22 +238,24 @@ function updateProgress(url, progress) {
         const progressElement = progressBar.querySelector('.progress');
         
         if (progressBar && progressElement) {
-            // Add downloading class to show progress bar
-            modelItem.classList.add('downloading');
-            
-            // Update progress width
-            progressElement.style.width = `${progress}%`;
+            // Show progress bar when download starts
+            if (progress > 0 && progress < 100) {
+                modelItem.classList.add('downloading');
+                modelItem.classList.remove('download-complete');
+                progressElement.style.width = `${progress}%`;
+            }
             
             // Handle completion
             if (progress >= 100) {
+                progressElement.style.width = '100%';
                 modelItem.classList.remove('downloading');
                 modelItem.classList.add('download-complete');
                 
-                // Reset progress bar after completion
+                // Reset progress bar after completion animation
                 setTimeout(() => {
                     modelItem.classList.remove('download-complete');
                     progressElement.style.width = '0%';
-                }, 1000);
+                }, 1500);
             }
         }
     }
