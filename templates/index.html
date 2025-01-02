@@ -17,11 +17,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .model-selection {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #ffffff;
+            display: block;
         }
         .repo-section {
             margin: 20px 0;
@@ -29,6 +25,16 @@
             background-color: #f8f9fa;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        @media (max-width: 768px) {
+            .repo-section {
+                flex: 1 1 calc(50% - 40px);
+            }
+        }
+        @media (max-width: 480px) {
+            .repo-section {
+                flex: 1 1 100%;
+            }
         }
         .repo-section h4 {
             color: #2c3e50;
@@ -38,31 +44,43 @@
             padding-bottom: 8px;
         }
         .model-group {
-            margin-left: 20px;
-            padding: 10px;
+            display: block;
         }
         .model-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin: 10px 0;
             padding: 8px;
             border: 1px solid #eee;
             border-radius: 4px;
             transition: background-color 0.2s;
+            flex-direction: row;
         }
         .model-item:hover {
             background-color: #f8f9fa;
         }
         .model-details {
-            margin-left: 20px;
-            font-size: 0.9em;
-            color: #666;
+            margin: 10px 0 10px 25px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 3px solid #4a90e2;
+            border-radius: 0 4px 4px 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+        }
+        .model-item.open .model-details {
             display: block;
+            opacity: 1;
         }
         .model-item-label {
+            flex-grow: 1;
             cursor: pointer;
             user-select: none;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 5px;
         }
         .model-item-label:hover {
             text-decoration: underline;
@@ -157,6 +175,14 @@
             font-size: 1.1em;
             padding: 12px 24px;
         }
+        .twirl-toggle {
+            cursor: pointer;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        .model-item.open .twirl-toggle {
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body>
@@ -181,30 +207,27 @@
                                     {% for model in models %}
                                         {% if model.name and model.url %}
                                             <div class="model-item">
-                                                <div class="model-item">
-                                                    <input type="checkbox" 
-                                                           name="models[]" 
-                                                           value="{{ model.url }}" 
-                                                           id="model_{{ category }}_{{ loop.index }}" 
-                                                           {% if model.required %}checked{% endif %}>
-                                                    <label for="model_{{ category }}_{{ loop.index }}" class="model-item-label">
-                                                        {{ model.name }}
-                                                        {% if model.type or model.size %}
-                                                            ({% if model.type %}{{ model.type }}{% endif %}
-                                                            {% if model.type and model.size %}, {% endif %}
-                                                            {% if model.size %}{{ model.size }}{% endif %})
-                                                        {% endif %}
-                                                        {% if model.required %}
-                                                            <span style="color: red;">*Required</span>
-                                                        {% endif %}
-                                                    </label>
-                                                    <div class="model-details">
-                                                        Source URL: <a href="{{ model.url }}" target="_blank">{{ model.url }}</a>
-                                                    </div>
-                                                    <div class="progress-bar" style="display: none;">
-                                                        <div class="progress" style="width: 0%"></div>
-                                                        <span class="progress-text">0%</span>
-                                                    </div>
+                                                <input type="checkbox" 
+                                                       name="models[]" 
+                                                       value="{{ model.url }}" 
+                                                       id="model_{{ category }}_{{ loop.index }}" 
+                                                       {% if model.required %}checked{% endif %}>
+                                                <label for="model_{{ category }}_{{ loop.index }}" class="model-item-label">
+                                                    {{ model.name }}
+                                                    {% if model.type or model.size %}
+                                                        ({{ model.type }}, {{ model.size }})
+                                                    {% endif %}
+                                                    {% if model.required %}
+                                                        <span style="color: red;">*Required</span>
+                                                    {% endif %}
+                                                </label>
+                                                <span class="twirl-toggle">▶</span>
+                                                <div class="model-details">
+                                                    Source URL: <a href="{{ model.url }}" target="_blank">{{ model.url }}</a>
+                                                </div>
+                                                <div class="progress-bar" style="display: none;">
+                                                    <div class="progress" style="width: 0%"></div>
+                                                    <span class="progress-text">0%</span>
                                                 </div>
                                             </div>
                                         {% endif %}
@@ -258,19 +281,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Enhanced model details toggle
-    document.querySelectorAll('.model-toggle').forEach(toggle => {
+    document.querySelectorAll('.model-item-label').forEach(label => {
+        label.addEventListener('click', function(e) {
+            const modelItem = this.closest('.model-item');
+            const details = modelItem.querySelector('.model-details');
+            
+            if (details) {
+                const isVisible = details.style.display === 'block';
+                details.style.display = isVisible ? 'none' : 'block';
+                modelItem.classList.toggle('open', !isVisible);
+            }
+        });
+    });
+
+    // Enhanced model details toggle
+    document.querySelectorAll('.twirl-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            if (e.target.tagName !== 'INPUT') {
-                e.preventDefault();
-                const details = this.closest('.model-item').querySelector('.model-details');
-                const icon = this.querySelector('.toggle-icon');
-                
-                if (details) {
-                    const isVisible = details.style.display === 'block';
-                    details.style.display = isVisible ? 'none' : 'block';
-                    icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
-                    details.style.opacity = isVisible ? '0' : '1';
-                }
+            e.stopPropagation(); // Prevent event from bubbling up
+            const modelItem = this.closest('.model-item');
+            const details = modelItem.querySelector('.model-details');
+            
+            if (details) {
+                const isVisible = details.style.display === 'block';
+                details.style.display = isVisible ? 'none' : 'block';
+                modelItem.classList.toggle('open', !isVisible);
             }
         });
     });
