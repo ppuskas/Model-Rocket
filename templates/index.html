@@ -319,9 +319,6 @@ function updateProgress(url, progress) {
 function toggleGroup(groupId) {
     const group = document.getElementById(groupId);
     const checkboxes = group.querySelectorAll('input[type="checkbox"]');
-    if (checkboxes.length === 0) {
-        return; // Don't toggle empty groups
-    }
     const allChecked = Array.from(checkboxes).every(cb => cb.checked);
     checkboxes.forEach(cb => cb.checked = !allChecked);
 }
@@ -340,13 +337,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const groups = document.querySelectorAll('.model-group');
     groups.forEach(group => {
         const groupId = group.id;
-        const checkboxes = group.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length === 0) {
-            // Auto-collapse empty groups
-            group.style.display = 'none';
-            const btn = document.getElementById('collapse_' + groupId);
-            if (btn) btn.textContent = '▶';
-        }
+        // Set initial state as expanded
+        group.style.display = 'block';
+        const btn = document.getElementById('collapse_' + groupId);
+        if (btn) btn.textContent = '▼';
     });
 });
 </script>
