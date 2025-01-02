@@ -271,6 +271,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tooltips
+    console.log('DOMContentLoaded');
     const tooltips = document.querySelectorAll('[data-tooltip]');
     tooltips.forEach(element => {
         element.addEventListener('mouseover', e => {
@@ -293,7 +294,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Single event listener for model detail toggles
     document.addEventListener('click', function(e) {
         const toggle = e.target.closest('.twirl-toggle');
+        console.log('toggle clicked');
         if (toggle) {
+            console.log('toggle clicked');
             e.preventDefault();
             e.stopPropagation();
             
