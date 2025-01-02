@@ -108,6 +108,10 @@ class ModelManager:
             return
 
         # Original functionality for downloading by model types
+        if not model_types:
+            model_types = list(self.model_database.keys())
+
+        # Original functionality for downloading by model types
         for category, models in self.model_database.items():
             if model_types and category not in model_types:
                 continue
