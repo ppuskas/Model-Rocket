@@ -123,7 +123,8 @@ class ModelScanner:
             "AnimateDiff Models": self.model_info["animatediff"],
             "IP-Adapter Models": self.model_info["ipadapter"],
             "LoRA Models": self.model_info["loras"],
-            "Motion Modules": self.model_info["motion_modules"]
+            "Motion Modules": self.model_info["motion_modules"],
+            "SD1.5 ControlNet": self.model_info.get("controlnet", [])
         }
         # Remove empty categories
         display_data = {k: v for k, v in display_data.items() if v}

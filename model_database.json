@@ -8,7 +8,7 @@
             "required": false
         }
     ],
-    "controlnet": [
+    "SD1.5 ControlNet": [
         {
             "name": "ControlNet Canny",
             "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth",
@@ -24,8 +24,85 @@
             "required": false
         },
         {
+            "name": "ControlNet Inpaint",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_inpaint.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet IP2P",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11e_sd15_ip2p.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Lineart",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_lineart.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Lineart Anime",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15s2_lineart_anime.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet MLSD",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_mlsd.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Normal BAE",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_normalbae.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
             "name": "ControlNet OpenPose",
             "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Scribble",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_scribble.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Segmentation",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_seg.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Shuffle",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11e_sd15_shuffle.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Soft Edge",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_softedge.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Tile",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1e_sd15_tile.pth",
             "type": "controlnet",
             "size": "1.45GB",
             "required": false
