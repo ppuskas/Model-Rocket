@@ -32,15 +32,15 @@ class ModelManager:
             logging.error("Model database not found. Run model_scanner.py first.")
             self.model_database = {}
 
-    def get_target_directory(self, model_type: str) -> Path:
-        """Determine target directory based on model type."""
+    def get_target_directory(self, model_type: str, url: str = None) -> Path:
+        """Determine target directory based on model type and optionally URL."""
         # First try to detect type from URL if unknown
-        if model_type == "unknown":
-            if "ip-adapter" in str(url).lower():
+        if model_type == "unknown" and url:
+            if "ip-adapter" in url.lower():
                 model_type = "ipadapter"
-            elif "motion" in str(url).lower():
+            elif "motion" in url.lower():
                 model_type = "motion_module"
-            elif "lora" in str(url).lower():
+            elif "lora" in url.lower():
                 model_type = "lora"
             
         type_to_dir = {
@@ -70,7 +70,7 @@ class ModelManager:
         if model_urls:
             # Download specific models by URL
             for url in model_urls:
-                target_dir = self.get_target_directory("unknown")  # Default to unknown type
+                target_dir = self.get_target_directory("unknown", url)  # Pass URL for type detection
                 target_path = target_dir / Path(url).name
                 
                 if target_path.exists():
