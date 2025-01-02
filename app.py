@@ -13,71 +13,50 @@ from manage import main as manage_main
 app = Flask(__name__)
 
 def load_model_database():
-    """Load default model database with hardcoded models"""
-    return {
-        "IP-Adapter Models": [
-            {
-                "name": "IP-Adapter SDXL Base",
-                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter_sdxl_vit-h.safetensors",
-                "type": "ipadapter",
-                "size": "402MB",
-                "required": False
-            },
-            {
-                "name": "IP-Adapter Plus SDXL",
-                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors",
-                "type": "ipadapter",
-                "size": "402MB",
-                "required": False
-            },
-            {
-                "name": "IP-Adapter Plus Face SDXL",
-                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus-face_sdxl_vit-h.safetensors",
-                "type": "ipadapter",
-                "size": "402MB",
-                "required": False
-            }
-        ],
-        "ControlNet Models": [
-            {
-                "name": "ControlNet SDXL Canny",
-                "url": "https://huggingface.co/stabilityai/control-lora/resolve/main/control-LoRAs-rank256/control-lora-canny-rank256.safetensors",
-                "type": "controlnet",
-                "size": "1.5GB",
-                "required": False
-            },
-            {
-                "name": "ControlNet SDXL Depth",
-                "url": "https://huggingface.co/stabilityai/control-lora/resolve/main/control-LoRAs-rank256/control-lora-depth-rank256.safetensors",
-                "type": "controlnet",
-                "size": "1.5GB",
-                "required": False
-            }
-        ],
-        "AnimateDiff Models": [
-            {
-                "name": "AnimateDiff SDXL",
-                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors",
-                "type": "motion_module",
-                "size": "1.62GB",
-                "required": False
-            },
-            {
-                "name": "AnimateDiff SD1.5",
-                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
-                "type": "motion_module",
-                "size": "1.62GB",
-                "required": False
-            },
-            {
-                "name": "Motion LoRA SDXL",
-                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/motion_lora_sdxl.safetensors",
-                "type": "motion_lora",
-                "size": "50MB",
-                "required": False
-            }
-        ]
-    }
+    """Load model database with Realistic Vision models"""
+    try:
+        with open("model_database.json", 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {
+            "Base Models": [
+                {
+                    "name": "Realistic Vision V5.0",
+                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": False
+                },
+                {
+                    "name": "Realistic Vision V4.0",
+                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V4.0_noVAE/resolve/main/Realistic_Vision_V4.0.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": False
+                },
+                {
+                    "name": "Realistic Vision V3.0",
+                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V3.0_VAE/resolve/main/Realistic_Vision_V3.0.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": False
+                },
+                {
+                    "name": "Realistic Vision V2.0",
+                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V2.0/resolve/main/Realistic_Vision_V2.0.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": False
+                },
+                {
+                    "name": "Realistic Vision V1.4",
+                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V1.4/resolve/main/Realistic_Vision_V1.4.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": False
+                }
+            ]
+        }
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
