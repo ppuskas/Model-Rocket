@@ -36,9 +36,9 @@ def get_default_path():
         print(f"Warning: Unknown system {system}, defaulting to Linux paths")
         system = "linux"
         
-    path = DEFAULT_PATHS[system]
+    path = Path(DEFAULT_PATHS[system])
     print(f"Using default path for {system}: {path}")
-    return path
+    return str(path)
 
 async def check_environment():
     """Verify environment and paths exist"""
@@ -132,7 +132,7 @@ async def main():
 
     # Print summary
     print("\nRun Summary:")
-    print(f"Base Path: {str(Path(args.path))}")  # Normalize path separators
+    print(f"Base Path: {Path(args.path).absolute()}")  # Use absolute path with proper separators
     print(f"Test Mode: {'Yes' if args.test else 'No'}")
     print(f"Log File: {os.path.abspath('model_scanner.log')}")
     
