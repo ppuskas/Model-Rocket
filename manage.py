@@ -18,9 +18,20 @@ DEFAULT_PATHS = {
 
 def get_default_path():
     """Get default ComfyUI path based on environment"""
+    system = platform.system().lower()
+    print(f"Detected system: {system}")
+    
     if os.path.exists("/workspace"):
+        print("RunPod environment detected (/workspace exists)")
         return DEFAULT_PATHS["runpod"]
-    return DEFAULT_PATHS[platform.system().lower()]
+    
+    if system not in DEFAULT_PATHS:
+        print(f"Warning: Unknown system {system}, defaulting to Linux paths")
+        system = "linux"
+        
+    path = DEFAULT_PATHS[system]
+    print(f"Using default path for {system}: {path}")
+    return path
 
 async def check_environment():
     """Verify environment and paths exist"""

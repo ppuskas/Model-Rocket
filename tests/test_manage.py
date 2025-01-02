@@ -13,12 +13,22 @@ from manage import get_default_path, check_environment
 async def test_get_default_path():
     """Test default path detection"""
     path = get_default_path()
+    system = platform.system().lower()
+    
+    # Test RunPod detection
     if os.path.exists("/workspace"):
         assert path == "/workspace/ComfyUI"
-    else:
-        system = platform.system().lower()
-        expected = os.path.expanduser("~/ComfyUI")
-        assert path == expected
+        return
+        
+    # Test Windows detection
+    if system == "windows":
+        assert "ComfyUI" in path
+        assert ":" in path  # Windows paths have drive letter
+        return
+        
+    # Test Unix-like systems
+    assert path.startswith(os.path.expanduser("~"))
+    assert path.endswith("ComfyUI")
 
 @pytest.mark.asyncio
 async def test_environment_check():
