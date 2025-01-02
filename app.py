@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import os
 import json
+from scripts.model_manager import ModelManager
 
 # Add the project root to Python path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -11,6 +12,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 from manage import main as manage_main
 
 app = Flask(__name__)
+
+def setup_directories():
+    """Create necessary directory structure if it doesn't exist"""
+    manager = ModelManager()
+    manager.create_directory_structure()
 
 def load_model_database():
     """Load model database with SD 1.5 models including Realistic Vision and ControlNet"""
@@ -107,4 +113,5 @@ def test_page():
                          summary=None)
 
 if __name__ == '__main__':
+    setup_directories()
     app.run(debug=True)
