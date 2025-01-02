@@ -1,39 +1,136 @@
 {
-  "Base Models": [
-    {
-      "name": "Realistic Vision V5.0",
-      "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
-      "type": "checkpoint",
-      "size": "4.27GB",
-      "required": false
-    },
-    {
-      "name": "Realistic Vision V4.0",
-      "url": "https://huggingface.co/SG161222/Realistic_Vision_V4.0_noVAE/resolve/main/Realistic_Vision_V4.0.safetensors",
-      "type": "checkpoint",
-      "size": "4.27GB",
-      "required": false
-    },
-    {
-      "name": "Realistic Vision V3.0",
-      "url": "https://huggingface.co/SG161222/Realistic_Vision_V3.0_VAE/resolve/main/Realistic_Vision_V3.0.safetensors",
-      "type": "checkpoint",
-      "size": "4.27GB",
-      "required": false
-    },
-    {
-      "name": "Realistic Vision V2.0",
-      "url": "https://huggingface.co/SG161222/Realistic_Vision_V2.0/resolve/main/Realistic_Vision_V2.0.safetensors",
-      "type": "checkpoint",
-      "size": "4.27GB",
-      "required": false
-    },
-    {
-      "name": "Realistic Vision V1.4",
-      "url": "https://huggingface.co/SG161222/Realistic_Vision_V1.4/resolve/main/Realistic_Vision_V1.4.safetensors",
-      "type": "checkpoint",
-      "size": "4.27GB",
-      "required": false
-    }
-  ]
+  "SD 1.5": {
+    "Base Models": [
+      {
+        "name": "SD 1.5",
+        "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": true
+      }
+    ],
+    "Realistic Vision Models": [
+      {
+        "name": "Realistic Vision V5.0",
+        "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": false
+      },
+      {
+        "name": "Realistic Vision V4.0",
+        "url": "https://huggingface.co/SG161222/Realistic_Vision_V4.0_noVAE/resolve/main/Realistic_Vision_V4.0.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": false
+      },
+      {
+        "name": "Realistic Vision V3.0",
+        "url": "https://huggingface.co/SG161222/Realistic_Vision_V3.0_VAE/resolve/main/Realistic_Vision_V3.0.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": false
+      },
+      {
+        "name": "Realistic Vision V2.0",
+        "url": "https://huggingface.co/SG161222/Realistic_Vision_V2.0/resolve/main/Realistic_Vision_V2.0.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": false
+      },
+      {
+        "name": "Realistic Vision V1.4",
+        "url": "https://huggingface.co/SG161222/Realistic_Vision_V1.4/resolve/main/Realistic_Vision_V1.4.safetensors",
+        "type": "checkpoint",
+        "size": "4.27GB",
+        "required": false
+      }
+    ],
+    "ControlNet Models": [
+      {
+        "name": "ControlNet Canny",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Depth",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1p_sd15_depth.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Inpaint",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_inpaint.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet LineArt",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_lineart.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet MLSD",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_mlsd.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Normal",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_normalbae.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet OpenPose",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Scribble",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_scribble.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Segmentation",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_seg.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Soft Edge",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_softedge.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Shuffle",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11e_sd15_shuffle.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      },
+      {
+        "name": "ControlNet Tile",
+        "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1e_sd15_tile.pth",
+        "type": "controlnet",
+        "size": "1.45GB",
+        "required": false
+      }
+    ]
+  }
 }

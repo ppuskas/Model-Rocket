@@ -13,49 +13,33 @@ from manage import main as manage_main
 app = Flask(__name__)
 
 def load_model_database():
-    """Load model database with Realistic Vision models"""
+    """Load model database with SD 1.5 models including Realistic Vision and ControlNet"""
     try:
         with open("model_database.json", 'r') as f:
             return json.load(f)
     except FileNotFoundError:
+        # Flattened structure for default database
         return {
-            "Base Models": [
-                {
-                    "name": "Realistic Vision V5.0",
-                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": False
-                },
-                {
-                    "name": "Realistic Vision V4.0",
-                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V4.0_noVAE/resolve/main/Realistic_Vision_V4.0.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": False
-                },
-                {
-                    "name": "Realistic Vision V3.0",
-                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V3.0_VAE/resolve/main/Realistic_Vision_V3.0.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": False
-                },
-                {
-                    "name": "Realistic Vision V2.0",
-                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V2.0/resolve/main/Realistic_Vision_V2.0.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": False
-                },
-                {
-                    "name": "Realistic Vision V1.4",
-                    "url": "https://huggingface.co/SG161222/Realistic_Vision_V1.4/resolve/main/Realistic_Vision_V1.4.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": False
-                }
-            ]
+            "SD 1.5": {
+                "Base Models": [
+                    {
+                        "name": "SD 1.5",
+                        "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+                        "type": "checkpoint",
+                        "size": "4.27GB",
+                        "required": True
+                    }
+                ],
+                "Realistic Vision Models": [
+                    {
+                        "name": "Realistic Vision V5.0",
+                        "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
+                        "type": "checkpoint",
+                        "size": "4.27GB",
+                        "required": False
+                    }
+                ]
+            }
         }
 
 @app.route('/', methods=['GET', 'POST'])
