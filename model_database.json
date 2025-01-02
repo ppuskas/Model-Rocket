@@ -1,10 +1,33 @@
 {
     "base_models": [
         {
-            "name": "RealVis Medium 2.0b",
-            "url": "https://huggingface.co/SG161222/RealVis_Medium_2.0b/resolve/main/RealVis_Medium_2.0b.safetensors",
+            "name": "Realistic Vision v6.0",
+            "url": "https://huggingface.co/SG161222/Realistic_Vision_V6.0_B1_noVAE/resolve/main/Realistic_Vision_V6.0_B1_noVAE.safetensors",
             "type": "checkpoint",
             "size": "4GB",
+            "required": false
+        }
+    ],
+    "controlnet": [
+        {
+            "name": "ControlNet Canny",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet Depth",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1p_sd15_depth.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
+            "required": false
+        },
+        {
+            "name": "ControlNet OpenPose",
+            "url": "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth",
+            "type": "controlnet",
+            "size": "1.45GB",
             "required": false
         }
     ]
