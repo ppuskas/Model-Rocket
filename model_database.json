@@ -150,6 +150,71 @@
             "type": "motion_module", 
             "size": "1.62GB",
             "required": false
+        },
+        {
+            "name": "TemporalDiff v1",
+            "url": "https://huggingface.co/CiaraRowles/TemporalDiff/resolve/main/temporaldiff-v1-animatediff.safetensors",
+            "type": "motion_module",
+            "size": "1.67GB",
+            "required": false
+        }
+    ],
+    "motion_loras": [
+        {
+            "name": "Pan Left",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanLeft.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Pan Right",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_PanRight.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Rolling Anticlockwise",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingAnticlockwise.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Rolling Clockwise",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_RollingClockwise.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Tilt Down",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_TiltDown.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Tilt Up",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_TiltUp.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Zoom In",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomIn.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
+        },
+        {
+            "name": "Zoom Out",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomOut.ckpt",
+            "type": "motion_lora",
+            "size": "77.5MB",
+            "required": false
         }
     ]
 }
