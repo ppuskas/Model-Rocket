@@ -4,28 +4,52 @@
     <title>ComfyUI Model Manager</title>
     <style>
         body { 
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .model-selection {
             margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #ffffff;
         }
         .repo-section {
-            margin: 15px 0;
-            padding: 10px;
+            margin: 20px 0;
+            padding: 15px;
             background-color: #f8f9fa;
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .repo-section h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
         }
         .model-group {
             margin-left: 20px;
+            padding: 10px;
         }
         .model-item {
-            margin: 5px 0;
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .model-item:hover {
+            background-color: #f8f9fa;
         }
         .model-details {
             margin-left: 20px;
@@ -115,13 +139,33 @@
         button {
             padding: 10px 20px;
             margin: 5px;
-            border-radius: 4px;
+            border-radius: 6px;
             border: none;
-            background-color: #007bff;
+            background-color: #4a90e2;
             color: white;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
         }
-        button:hover { background-color: #0056b3; }
+        button:hover { 
+            background-color: #357abd;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .select-all {
+            background-color: #6c757d;
+            font-size: 0.9em;
+        }
+        .collapse-btn {
+            background-color: #495057;
+            width: 40px;
+            padding: 5px 10px;
+        }
+        .download-btn {
+            background-color: #28a745;
+            font-size: 1.1em;
+            padding: 12px 24px;
+        }
     </style>
 </head>
 <body>
@@ -204,14 +248,39 @@
     {% endif %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Model details toggle
+    // Initialize tooltips
+    const tooltips = document.querySelectorAll('[data-tooltip]');
+    tooltips.forEach(element => {
+        element.addEventListener('mouseover', e => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = element.dataset.tooltip;
+            document.body.appendChild(tooltip);
+            
+            const rect = element.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
+            tooltip.style.left = `${rect.left + (rect.width - tooltip.offsetWidth) / 2}px`;
+        });
+        
+        element.addEventListener('mouseout', () => {
+            const tooltip = document.querySelector('.tooltip');
+            if (tooltip) tooltip.remove();
+        });
+    });
+
+    // Enhanced model details toggle
     document.querySelectorAll('.model-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            if (e.target.tagName !== 'INPUT') {  // Don't trigger on checkbox click
+            if (e.target.tagName !== 'INPUT') {
                 e.preventDefault();
-                const details = this.nextElementSibling;
-                if (details && details.classList.contains('model-details')) {
-                    details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
+                const details = this.closest('.model-item').querySelector('.model-details');
+                const icon = this.querySelector('.toggle-icon');
+                
+                if (details) {
+                    const isVisible = details.style.display === 'block';
+                    details.style.display = isVisible ? 'none' : 'block';
+                    icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(90deg)';
+                    details.style.opacity = isVisible ? '0' : '1';
                 }
             }
         });
@@ -311,7 +380,6 @@ function pollDownloadProgress() {
 }
 
 function updateProgress(url, progress) {
-    // Find the model item by URL
     const checkbox = document.querySelector(`input[value="${url}"]`);
     if (checkbox) {
         const modelItem = checkbox.closest('.model-item');
@@ -319,23 +387,95 @@ function updateProgress(url, progress) {
         const progressElement = progressBar.querySelector('.progress');
         const progressText = progressBar.querySelector('.progress-text');
         
-        // Smooth animation of progress bar
-        progressElement.style.width = `${progress}%`;
-        progressText.textContent = `${progress}%`;
-        
-        // Add pulse effect when complete
-        if (progress >= 100) {
-            progressElement.style.backgroundColor = '#28a745';
-            progressElement.style.animation = 'pulse 1s';
+        if (progressBar && progressElement && progressText) {
+            // Show progress bar if hidden
+            if (progressBar.style.display === 'none') {
+                progressBar.style.display = 'block';
+                modelItem.classList.add('downloading');
+            }
+            
+            // Smooth animation
+            progressElement.style.transition = 'width 0.3s ease-in-out';
+            progressElement.style.width = `${progress}%`;
+            progressText.textContent = `${progress}%`;
+            
+            // Complete state
+            if (progress >= 100) {
+                progressElement.style.backgroundColor = '#28a745';
+                modelItem.classList.remove('downloading');
+                modelItem.classList.add('download-complete');
+                
+                // Add completion message
+                const completionMsg = document.createElement('div');
+                completionMsg.className = 'completion-message';
+                completionMsg.textContent = 'Download Complete';
+                modelItem.appendChild(completionMsg);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    completionMsg.remove();
+                    progressBar.style.display = 'none';
+                }, 3000);
+            }
         }
     }
 }
 
 // Add this to your existing <style> section
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
+}
+        
+.tooltip {
+    position: fixed;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+    pointer-events: none;
+}
+        
+.model-details {
+    margin: 10px 0 10px 25px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-left: 3px solid #4a90e2;
+    border-radius: 0 4px 4px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+        
+.downloading {
+    background-color: #fff8e1;
+}
+        
+.download-complete {
+    animation: pulse 1s;
+}
+        
+.completion-message {
+    color: #28a745;
+    text-align: right;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+        
+.progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: #eee;
+    overflow: hidden;
+    margin-top: 8px;
+}
+        
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #4a90e2, #357abd);
+    transition: width 0.3s ease;
 }
 
 function toggleGroup(groupId) {
