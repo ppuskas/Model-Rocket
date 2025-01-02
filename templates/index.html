@@ -38,12 +38,12 @@
                                                             <span class="model-type-size">({{ model.type }}, {{ model.size }})</span>
                                                         {% endif %}
                                                         {% if model.required %}
-                                                            <span style="color: red;">*Required</span>
+                                                            <span class="required-marker">*Required</span>
                                                         {% endif %}
                                                     </span>
                                                     <span class="twirl-toggle">▶</span>
                                                 </label>
-                                                <div class="model-details" style="display: none;">
+                                                <div class="model-details">
                                                     <div class="model-info">
                                                         <p><strong>Source URL:</strong> <a href="{{ model.url }}" target="_blank">{{ model.url }}</a></p>
                                                         <p><strong>Type:</strong> {{ model.type }}</p>

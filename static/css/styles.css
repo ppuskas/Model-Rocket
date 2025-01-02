@@ -222,6 +222,11 @@ button:hover {
     border-left: 3px solid #4a90e2;
     border-radius: 0 4px 4px 0;
     transition: all 0.3s ease;
+    display: none;
+}
+
+.required-marker {
+    color: red;
 }
 
 .model-info {
