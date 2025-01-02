@@ -6,8 +6,8 @@ A tool for managing ComfyUI models in both local and RunPod environments. Automa
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/comfyui-model-manager.git
-cd comfyui-model-manager
+git clone https://github.com/ppuskas/Model-Rocket.git
+cd Model-Rocket
 
 # 2. Install dependencies
 pip install -r requirements.txt
@@ -32,8 +32,8 @@ cat model_scanner.log
 
 # 1. Clone the repository in your RunPod terminal
 cd /workspace
-git clone https://github.com/yourusername/comfyui-model-manager.git
-cd comfyui-model-manager
+git clone https://github.com/ppuskas/Model-Rocket.git
+cd Model-Rocket
 
 # 2. Install dependencies
 pip install -r requirements.txt
