@@ -38,7 +38,7 @@ def get_default_path():
         
     path = Path(DEFAULT_PATHS[system])
     print(f"Using default path for {system}: {path}")
-    return str(path)
+    return str(path.absolute())
 
 async def check_environment():
     """Verify environment and paths exist"""
