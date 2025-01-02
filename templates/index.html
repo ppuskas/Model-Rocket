@@ -37,6 +37,17 @@
             cursor: pointer;
             user-select: none;
             display: inline-block;
+            position: relative;
+            padding-left: 20px;
+        }
+        .model-toggle:before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            transition: transform 0.2s;
+        }
+        .model-toggle.expanded:before {
+            transform: rotate(90deg);
         }
         .model-toggle:hover {
             text-decoration: underline;
@@ -345,6 +356,21 @@ function toggleCollapse(groupId) {
     // Save state to localStorage
     localStorage.setItem('group_' + groupId, isCollapsed ? 'expanded' : 'collapsed');
 }
+
+// Add click handler for model toggles
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.model-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            if (e.target.tagName !== 'INPUT') {
+                this.classList.toggle('expanded');
+                const details = this.nextElementSibling;
+                if (details && details.classList.contains('model-details')) {
+                    details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
+                }
+            }
+        });
+    });
+});
 
 // Restore collapse states on page load
 document.addEventListener('DOMContentLoaded', function() {
