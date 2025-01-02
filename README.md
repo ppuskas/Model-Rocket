@@ -1,4 +1,4 @@
-# Model-Rocket 🚀
+# Model-Rocket :rocket:
 
 A tool for managing ComfyUI models in both local and RunPod environments. Automates the process of setting up directories, downloading models, and organizing dependencies.
 
