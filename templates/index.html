@@ -73,6 +73,14 @@
             font-size: 0.9em;
             background-color: #6c757d;
         }
+        .collapse-btn {
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 0.9em;
+            background-color: #495057;
+            cursor: pointer;
+            width: 40px;
+        }
         .info-box {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -123,6 +131,7 @@
                             <div class="repo-section">
                                 <h4>{{ category }}</h4>
                                 <button type="button" class="select-all" onclick="toggleGroup('{{ category|replace(' ', '_') }}')">Select All</button>
+                                <button type="button" class="collapse-btn" onclick="toggleCollapse('{{ category|replace(' ', '_') }}')" id="collapse_{{ category|replace(' ', '_') }}">▼</button>
                                 <div class="model-group" id="{{ category|replace(' ', '_') }}">
                                     {% for model in models %}
                                         {% if model.name and model.url %}
@@ -310,9 +319,36 @@ function updateProgress(url, progress) {
 function toggleGroup(groupId) {
     const group = document.getElementById(groupId);
     const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+    if (checkboxes.length === 0) {
+        return; // Don't toggle empty groups
+    }
     const allChecked = Array.from(checkboxes).every(cb => cb.checked);
     checkboxes.forEach(cb => cb.checked = !allChecked);
 }
+
+function toggleCollapse(groupId) {
+    const group = document.getElementById(groupId);
+    const btn = document.getElementById('collapse_' + groupId);
+    const isCollapsed = group.style.display === 'none';
+    
+    group.style.display = isCollapsed ? 'block' : 'none';
+    btn.textContent = isCollapsed ? '▼' : '▶';
+}
+
+// Initialize collapse state on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const groups = document.querySelectorAll('.model-group');
+    groups.forEach(group => {
+        const groupId = group.id;
+        const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+        if (checkboxes.length === 0) {
+            // Auto-collapse empty groups
+            group.style.display = 'none';
+            const btn = document.getElementById('collapse_' + groupId);
+            if (btn) btn.textContent = '▶';
+        }
+    });
+});
 </script>
 </body>
 </html>
