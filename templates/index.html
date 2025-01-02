@@ -272,77 +272,7 @@ function updateProgress(url, progress) {
 }
 
 // Add this to your existing <style> section
-@keyframes pulse {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.02); }
-    100% { opacity: 1; transform: scale(1); }
-}
-        
-.tooltip {
-    position: fixed;
-    background: #333;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    z-index: 1000;
-    pointer-events: none;
-}
-        
-.model-details {
-    margin: 10px 0 10px 25px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-left: 3px solid #4a90e2;
-    border-radius: 0 4px 4px 0;
-    transition: all 0.3s ease;
-}
-.model-info {
-    font-size: 0.9em;
-    line-height: 1.5;
-}
-.model-info p {
-    margin: 5px 0;
-}
-.model-info strong {
-    color: #2c3e50;
-}
-.model-info a {
-    color: #4a90e2;
-    text-decoration: none;
-}
-.model-info a:hover {
-    text-decoration: underline;
-}
-        
-.downloading {
-    background-color: #fff8e1;
-}
-        
-.download-complete {
-    animation: pulse 1s;
-}
-        
-.completion-message {
-    color: #28a745;
-    text-align: right;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-        
-.progress-bar {
-    height: 6px;
-    border-radius: 3px;
-    background: #eee;
-    overflow: hidden;
-    margin-top: 8px;
-}
-        
-.progress {
-    height: 100%;
-    background: linear-gradient(90deg, #4a90e2, #357abd);
-    transition: width 0.3s ease;
-}
+
 
 function toggleGroup(groupId) {
     const group = document.getElementById(groupId);
