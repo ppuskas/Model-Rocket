@@ -122,6 +122,15 @@
         "size": "1.45GB",
         "required": false
       }
+    ],
+    "VAE Models": [
+      {
+        "name": "SD 1.5 VAE",
+        "url": "https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.ckpt",
+        "type": "vae",
+        "size": "335MB",
+        "required": false
+      }
     ]
   }
 }
