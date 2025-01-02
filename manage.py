@@ -104,16 +104,12 @@ async def main():
         else:
             print("Warning: Model database file was not created")
     
-    if args.setup or args.download:
+    if args.download:
         manager = ModelManager(base_path=args.path)
-        
-        if args.setup:
-            manager.create_directory_structure()
-            print("Directory structure created.")
-            
-        if args.download:
-            await manager.download_models()
-            print("Model downloads complete.")
+        # Always create directory structure before download
+        manager.create_directory_structure()
+        await manager.download_models()
+        print("Model downloads complete.")
 
     # Print summary
     print("\nRun Summary:")

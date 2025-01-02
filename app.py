@@ -13,15 +13,43 @@ from manage import main as manage_main
 app = Flask(__name__)
 
 def load_model_database():
-    try:
-        with open('model_database.json', 'r') as f:
-            data = json.load(f)
-            # Ensure we have valid data
-            if not isinstance(data, dict):
-                return {}
-            return data
-    except (FileNotFoundError, json.JSONDecodeError):
-        return {}
+    """Load default model database with hardcoded models"""
+    return {
+        "Base Models": [
+            {
+                "name": "SDXL 1.0 Base",
+                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+                "type": "checkpoint",
+                "size": "6.46GB",
+                "required": True
+            },
+            {
+                "name": "SDXL 1.0 Refiner",
+                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors",
+                "type": "checkpoint",
+                "size": "6.46GB",
+                "required": False
+            }
+        ],
+        "Motion Modules": [
+            {
+                "name": "MM SDXL v1.0",
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors",
+                "type": "motion_module",
+                "size": "1.62GB",
+                "required": False
+            }
+        ],
+        "IP-Adapter Models": [
+            {
+                "name": "IP-Adapter SDXL",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            }
+        ]
+    }
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -31,21 +59,13 @@ def index():
     model_database = load_model_database()
 
     if request.method == 'POST':
-        action = request.form.get('action')
         test_mode = 'test_mode' in request.form
         selected_models = request.form.getlist('models[]')
         
         # Build command line arguments
-        sys.argv = ['manage.py']
-        if action == 'scan':
-            sys.argv.append('--scan')
-        elif action == 'setup':
-            sys.argv.append('--setup')
-        elif action == 'download':
-            sys.argv.append('--download')
-            if selected_models:
-                sys.argv.extend(['--models'] + selected_models)
-        
+        sys.argv = ['manage.py', '--download']
+        if selected_models:
+            sys.argv.extend(['--models'] + selected_models)
         if test_mode:
             sys.argv.append('--test')
 

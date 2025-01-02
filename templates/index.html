@@ -75,8 +75,6 @@
             <p><strong>Warning:</strong> Downloading models requires significant disk space (~10GB+)</p>
         </div>
         <form method="POST" onsubmit="return confirmDownload(this)" id="actionForm">
-            <button type="submit" name="action" value="scan">Scan Repositories</button>
-            <button type="submit" name="action" value="setup">Setup Directories</button>
             <div class="model-selection">
                 <h3>Available Models</h3>
                 {% if model_database %}
