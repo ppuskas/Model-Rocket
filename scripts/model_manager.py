@@ -37,8 +37,8 @@ class ModelManager:
         type_to_dir = {
             "checkpoint": self.base_path / "models/checkpoints",
             "motion_module": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-module",
-            "motion_lora": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-lora",
-            "motion_loras": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-lora",
+            "motion_lora": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
+            "motion_loras": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
             "lora": self.base_path / "models/loras", 
             "ipadapter": self.base_path / "custom_nodes/ComfyUI_IPAdapter_plus/models/ip-adapter",
             "vae": self.base_path / "models/vae",
@@ -203,7 +203,7 @@ class ModelManager:
             "models/vae",
             "models/loras",
             "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-module",
-            "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-lora",
+            "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora",
             "custom_nodes/ComfyUI_IPAdapter_plus/models/ip-adapter",
             "custom_nodes/ComfyUI_IPAdapter_plus/models/ip-adapter-plus",
         ]
