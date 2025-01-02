@@ -264,6 +264,7 @@ button:hover {
     color: #6c757d;
     vertical-align: middle;
     margin-left: 10px;
+    font-weight: 300;
 }
 
 .model-name {
