@@ -2,15 +2,6 @@
   "SD 1.5": {
     "Base Models": [
       {
-        "name": "SD 1.5",
-        "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
-        "type": "checkpoint",
-        "size": "4.27GB",
-        "required": true
-      }
-    ],
-    "Realistic Vision Models": [
-      {
         "name": "Realistic Vision V5.0",
         "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
         "type": "checkpoint",
