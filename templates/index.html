@@ -222,8 +222,12 @@
                                                     {% endif %}
                                                 </label>
                                                 <span class="twirl-toggle">▶</span>
-                                                <div class="model-details">
-                                                    Source URL: <a href="{{ model.url }}" target="_blank">{{ model.url }}</a>
+                                                <div class="model-details" style="display: none;">
+                                                    <div class="model-info">
+                                                        <p><strong>Source URL:</strong> <a href="{{ model.url }}" target="_blank">{{ model.url }}</a></p>
+                                                        <p><strong>Type:</strong> {{ model.type }}</p>
+                                                        <p><strong>Size:</strong> {{ model.size }}</p>
+                                                    </div>
                                                 </div>
                                                 <div class="progress-bar" style="display: none;">
                                                     <div class="progress" style="width: 0%"></div>
@@ -464,12 +468,28 @@ function updateProgress(url, progress) {
         
 .model-details {
     margin: 10px 0 10px 25px;
-    padding: 10px;
+    padding: 15px;
     background: #f8f9fa;
     border-left: 3px solid #4a90e2;
     border-radius: 0 4px 4px 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
+}
+.model-info {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+.model-info p {
+    margin: 5px 0;
+}
+.model-info strong {
+    color: #2c3e50;
+}
+.model-info a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+.model-info a:hover {
+    text-decoration: underline;
 }
         
 .downloading {
