@@ -34,6 +34,10 @@ class ModelManager:
 
     def get_target_directory(self, model_type: str, url: str = None) -> Path:
         """Determine target directory based on model type and optionally URL."""
+        # First check if it's a motion LoRA from the URL
+        if url and "guoyww/animatediff" in url.lower() and "v2_lora_" in url.lower():
+            return self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/motion_lora"
+            
         type_to_dir = {
             "checkpoint": self.base_path / "models/checkpoints",
             "motion_module": self.base_path / "custom_nodes/ComfyUI-AnimateDiff-Evolved/models/motion-module",
