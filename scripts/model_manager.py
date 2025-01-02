@@ -83,7 +83,7 @@ class ModelManager:
                     elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
                         model_type = "checkpoint"
                     
-                    target_dir = self.get_target_directory(model_type)
+                    target_dir = self.get_target_directory(model_type, url)
                     target_path = target_dir / Path(url).name
                     
                     if target_path.exists():
