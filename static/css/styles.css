@@ -246,6 +246,13 @@ button:hover {
     text-decoration: underline;
 }
 
+.version {
+    font-size: 0.5em;
+    color: #6c757d;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
 .model-name {
     font-size: 0.95em;
     color: #2c3e50;
