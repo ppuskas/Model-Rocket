@@ -25,19 +25,19 @@ def load_model_database():
     """Load model database with SD 1.5 models including Realistic Vision and ControlNet"""
     try:
         with open("model_database.json", 'r') as f:
-            return json.load(f)
+            db = json.load(f)
+            # Structure the database for template rendering
+            display_data = {
+                "Base Models": db.get("base_models", []),
+                "AnimateDiff Models": db.get("animatediff", []),
+                "IP-Adapter Models": db.get("ipadapter", []),
+                "LoRA Models": db.get("loras", []),
+                "Motion Modules": db.get("motion_modules", [])
+            }
+            # Remove empty categories
+            return {k: v for k, v in display_data.items() if v}
     except FileNotFoundError:
-        return {
-            "SD 1.5 - Base Models": [
-                {
-                    "name": "SD 1.5",
-                    "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
-                    "type": "checkpoint",
-                    "size": "4.27GB",
-                    "required": True
-                }
-            ]
-        }
+        return {}
 
 @app.route('/download_progress')
 def get_download_progress():

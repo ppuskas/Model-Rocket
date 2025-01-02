@@ -1,1 +1,22 @@
-{}
+{
+    "base_models": [
+        {
+            "name": "SDXL 1.0 Base",
+            "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+            "type": "checkpoint",
+            "size": "6.46GB",
+            "required": true
+        },
+        {
+            "name": "SD 1.5",
+            "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+            "type": "checkpoint",
+            "size": "4.27GB",
+            "required": false
+        }
+    ],
+    "animatediff": [],
+    "ipadapter": [],
+    "loras": [],
+    "motion_modules": []
+}
