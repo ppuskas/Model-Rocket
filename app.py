@@ -25,14 +25,7 @@ def load_model_database():
     """Load model database with SD 1.5 models including Realistic Vision and ControlNet"""
     try:
         with open("model_database.json", 'r') as f:
-            db = json.load(f)
-            # Flatten the nested structure for template rendering
-            flattened_db = {}
-            for top_category, subcategories in db.items():
-                for subcategory, models in subcategories.items():
-                    category_name = f"{top_category} - {subcategory}"
-                    flattened_db[category_name] = models
-            return flattened_db
+            return json.load(f)
     except FileNotFoundError:
         return {
             "SD 1.5 - Base Models": [
