@@ -75,6 +75,7 @@ async def main():
     parser.add_argument('--test', action='store_true', help='Run in test mode with minimal downloads')
     parser.add_argument('--path', default=None, help='Base path for ComfyUI')
     parser.add_argument('--force', action='store_true', help='Skip environment checks')
+    parser.add_argument('--models', nargs='+', help='Specific model URLs to download')
     
     args = parser.parse_args()
 
@@ -108,7 +109,7 @@ async def main():
         manager = ModelManager(base_path=args.path)
         # Always create directory structure before download
         manager.create_directory_structure()
-        await manager.download_models()
+        await manager.download_models(model_urls=args.models)
         print("Model downloads complete.")
 
     # Print summary
