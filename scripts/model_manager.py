@@ -68,7 +68,7 @@ class ModelManager:
 
     async def download_file(self, url: str, target_path: Path):
         """Download file with progress bar and progress tracking."""
-        from app import download_progress
+        from app import update_progress
         
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
@@ -76,17 +76,24 @@ class ModelManager:
                 target_path.parent.mkdir(parents=True, exist_ok=True)
                 
                 downloaded = 0
+                chunk_size = 8192
+                
                 with open(target_path, 'wb') as f:
-                    with tqdm(total=total_size, unit='B', unit_scale=True) as pbar:
-                        async for chunk in response.content.iter_chunked(8192):
-                            f.write(chunk)
-                            downloaded += len(chunk)
-                            pbar.update(len(chunk))
-                            
-                            # Update progress percentage
-                            if total_size > 0:
-                                progress = int((downloaded / total_size) * 100)
-                                download_progress[url] = progress
+                    with tqdm(total=total_size, unit='B', unit_scale=True, desc=target_path.name) as pbar:
+                        async for chunk in response.content.iter_chunked(chunk_size):
+                            if chunk:  # Filter out keep-alive chunks
+                                f.write(chunk)
+                                downloaded += len(chunk)
+                                pbar.update(len(chunk))
+                                
+                                # Update progress percentage more frequently
+                                if total_size > 0:
+                                    progress = int((downloaded / total_size) * 100)
+                                    update_progress(url, progress)
+                                    
+                # Ensure 100% progress is set when complete
+                if total_size > 0:
+                    update_progress(url, 100)
 
     async def download_models(self, model_types: List[str] = None, model_urls: List[str] = None, test_mode: bool = False):
         """Download selected model types or specific model URLs."""

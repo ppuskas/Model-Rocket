@@ -9,6 +9,10 @@ from scripts.model_manager import ModelManager
 # Global dictionary to track download progress
 download_progress = {}
 
+def update_progress(url: str, progress: int):
+    """Update download progress for a specific URL"""
+    download_progress[url] = progress
+
 # Add the project root to Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
