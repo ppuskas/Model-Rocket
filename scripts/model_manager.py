@@ -93,7 +93,7 @@ class ModelManager:
                     elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
                         model_type = "checkpoint"
                     
-                    target_dir = self.get_target_directory(model_type)
+                    target_dir = self.get_target_directory(model_type, url)
                     target_path = target_dir / Path(url).name
                     
                     if target_path.exists():
@@ -110,6 +110,10 @@ class ModelManager:
         # Original functionality for downloading by model types
         if not model_types:
             model_types = list(self.model_database.keys())
+            
+        for model_type in model_types:
+            if model_type not in self.model_database:
+                continue
 
         # Original functionality for downloading by model types
         for category, models in self.model_database.items():
