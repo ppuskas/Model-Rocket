@@ -147,26 +147,6 @@ function startDownload() {
     }
     
     const testMode = document.getElementById('test_mode').checked;
-    if (!testMode) {
-        const totalSize = Array.from(document.querySelectorAll('input[name="models[]"]:checked'))
-            .map(checkbox => {
-                const sizeText = checkbox.closest('.model-item').querySelector('.model-type-size').textContent;
-                const size = sizeText.match(/(\d+(?:\.\d+)?)(GB|MB|KB)/);
-                if (!size) return 0;
-                const [_, num, unit] = size;
-                switch(unit) {
-                    case 'GB': return parseFloat(num);
-                    case 'MB': return parseFloat(num) / 1024;
-                    case 'KB': return parseFloat(num) / (1024 * 1024);
-                    default: return 0;
-                }
-            })
-            .reduce((a, b) => a + b, 0);
-
-        if (!confirm(`Warning: You are about to download ${selectedCount} models totaling approximately ${totalSize.toFixed(1)}GB of disk space. Continue?`)) {
-            return;
-        }
-    }
 
     // Collect form data
     const formData = new FormData(form);
