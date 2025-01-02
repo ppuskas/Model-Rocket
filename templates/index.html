@@ -50,8 +50,10 @@
                                                         <p><strong>Size:</strong> {{ model.size }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="progress-bar" style="display: none;">
-                                                    <div class="progress"></div>
+                                                <div class="progress-container">
+                                                    <div class="progress-bar">
+                                                        <div class="progress"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         {% endif %}
@@ -236,8 +238,7 @@ function updateProgress(url, progress) {
         const progressElement = progressBar.querySelector('.progress');
         
         if (progressBar && progressElement) {
-            // Show progress bar
-            progressBar.style.display = 'block';
+            // Add downloading class to show progress bar
             modelItem.classList.add('downloading');
             
             // Update progress width
@@ -248,9 +249,9 @@ function updateProgress(url, progress) {
                 modelItem.classList.remove('downloading');
                 modelItem.classList.add('download-complete');
                 
-                // Hide progress bar after completion animation
+                // Reset progress bar after completion
                 setTimeout(() => {
-                    progressBar.style.display = 'none';
+                    modelItem.classList.remove('download-complete');
                     progressElement.style.width = '0%';
                 }, 1000);
             }

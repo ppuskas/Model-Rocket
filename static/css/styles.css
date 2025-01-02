@@ -260,11 +260,16 @@ button:hover {
     margin-top: 5px;
 }
 
+.progress-container {
+    width: 100%;
+    margin-top: 8px;
+}
+
 .progress-bar {
+    width: 100%;
     height: 4px;
     background-color: #f0f0f0;
     border-radius: 2px;
-    margin-top: 8px;
     overflow: hidden;
     display: none;
 }
@@ -274,4 +279,8 @@ button:hover {
     height: 100%;
     background-color: #007bff;
     transition: width 0.3s ease-in-out;
+}
+
+.downloading .progress-bar {
+    display: block;
 }
