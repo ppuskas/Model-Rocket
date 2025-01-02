@@ -70,7 +70,18 @@ class ModelManager:
         if model_urls:
             # Download specific models by URL
             for url in model_urls:
-                target_dir = self.get_target_directory("unknown", url)  # Pass URL for type detection
+                # For direct URLs, we need to determine the model type from the URL
+                model_type = "unknown"
+                if "motion" in url.lower():
+                    model_type = "motion_module"
+                elif "lora" in url.lower():
+                    model_type = "lora"
+                elif "ip-adapter" in url.lower():
+                    model_type = "ipadapter"
+                elif any(ext in url.lower() for ext in [".safetensors", ".ckpt"]):
+                    model_type = "checkpoint"
+                
+                target_dir = self.get_target_directory(model_type)
                 target_path = target_dir / Path(url).name
                 
                 if target_path.exists():
