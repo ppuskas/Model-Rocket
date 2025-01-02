@@ -75,8 +75,28 @@ class ModelManager:
                             f.write(chunk)
                             pbar.update(len(chunk))
 
-    async def download_models(self, model_types: List[str] = None, model_urls: List[str] = None):
+    async def download_models(self, model_types: List[str] = None, model_urls: List[str] = None, test_mode: bool = False):
         """Download selected model types or specific model URLs."""
+        if test_mode:
+            logging.info("Running in test mode - simulating downloads")
+            test_models = [
+                {
+                    "name": "Test Model 1",
+                    "url": "https://example.com/test1.safetensors",
+                    "type": "checkpoint",
+                    "size": "1MB"
+                },
+                {
+                    "name": "Test Model 2", 
+                    "url": "https://example.com/test2.safetensors",
+                    "type": "lora",
+                    "size": "1MB"
+                }
+            ]
+            for model in test_models:
+                logging.info(f"Test mode: Would download {model['name']} ({model['size']}) to {model['type']} directory")
+            return
+
         if model_urls:
             # Download specific models by URL
             for url in model_urls:

@@ -109,7 +109,7 @@ async def main():
         manager = ModelManager(base_path=args.path)
         # Always create directory structure before download
         manager.create_directory_structure()
-        await manager.download_models(model_urls=args.models)
+        await manager.download_models(model_urls=args.models, test_mode=args.test)
         print("Model downloads complete.")
 
     # Print summary
