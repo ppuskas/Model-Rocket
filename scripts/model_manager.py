@@ -88,12 +88,12 @@ class ModelManager:
                         model_type = "motion_module"
                     elif "lora" in url_lower:
                         model_type = "lora"
-                    elif "ip-adapter" in url_lower:
+                    elif "ipadapter" in url_lower:
                         model_type = "ipadapter"
                     elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
                         model_type = "checkpoint"
                     
-                    target_dir = self.get_target_directory(model_type, url)
+                    target_dir = self.get_target_directory(model_type)
                     target_path = target_dir / Path(url).name
                     
                     if target_path.exists():
