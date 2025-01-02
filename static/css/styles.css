@@ -1,8 +1,9 @@
 h1 {
-    color: #2c3e50;
+    color: #502c2c;
     margin-bottom: 30px;
     padding-bottom: 15px;
     border-bottom: 2px solid #e0e0e0;
+    font-weight: 1px;
 }
 
 body { 
