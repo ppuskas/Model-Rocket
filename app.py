@@ -29,7 +29,7 @@ def load_model_database():
             # Structure the database for template rendering
             display_data = {
                 "Base Models": db.get("base_models", []),
-                "ControlNet Models": db.get("controlnet", []),
+                "SD1.5 ControlNet": db.get("SD1.5 ControlNet", []),  # Match exact category name from JSON
                 "AnimateDiff Models": db.get("animatediff", []),
                 "IP-Adapter Models": db.get("ipadapter", []),
                 "LoRA Models": db.get("loras", []),
