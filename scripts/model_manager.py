@@ -56,12 +56,31 @@ class ModelManager:
                             f.write(chunk)
                             pbar.update(len(chunk))
 
-    async def download_models(self, model_types: List[str] = None):
-        """Download selected model types."""
+    async def download_models(self, model_types: List[str] = None, model_urls: List[str] = None):
+        """Download selected model types or specific model URLs."""
+        if model_urls:
+            # Download specific models by URL
+            for url in model_urls:
+                target_dir = self.get_target_directory("unknown")  # Default to unknown type
+                target_path = target_dir / Path(url).name
+                
+                if target_path.exists():
+                    logging.info(f"Skipping existing model: {target_path.name}")
+                    continue
+
+                try:
+                    logging.info(f"Downloading from {url} to {target_path}")
+                    await self.download_file(url, target_path)
+                    logging.info(f"Successfully downloaded {target_path.name}")
+                except Exception as e:
+                    logging.error(f"Failed to download from {url}: {str(e)}")
+            return
+
+        # Original functionality for downloading by model types
         for category, models in self.model_database.items():
             if model_types and category not in model_types:
                 continue
-
+            
             for model in models:
                 target_dir = self.get_target_directory(model['type'])
                 target_path = target_dir / Path(model['url']).name
