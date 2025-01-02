@@ -16,13 +16,16 @@ async def test_get_default_path():
     system = platform.system().lower()
     
     # Test RunPod detection
-    if os.path.exists("/workspace"):
+    if (os.path.exists("/workspace") and 
+        system == "linux" and 
+        os.environ.get("RUNPOD_POD_ID") is not None):
         assert path == "/workspace/ComfyUI"
         return
         
     # Test Windows detection
     if system == "windows":
-        assert "ComfyUI" in path
+        expected = os.path.expanduser("~/ComfyUI")
+        assert path == expected
         assert ":" in path  # Windows paths have drive letter
         return
         

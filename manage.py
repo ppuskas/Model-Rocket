@@ -21,8 +21,15 @@ def get_default_path():
     system = platform.system().lower()
     print(f"Detected system: {system}")
     
-    if os.path.exists("/workspace"):
-        print("RunPod environment detected (/workspace exists)")
+    # More robust RunPod detection - check both path and environment
+    is_runpod = (
+        os.path.exists("/workspace") and 
+        system == "linux" and
+        os.environ.get("RUNPOD_POD_ID") is not None
+    )
+    
+    if is_runpod:
+        print("RunPod environment detected")
         return DEFAULT_PATHS["runpod"]
     
     if system not in DEFAULT_PATHS:
