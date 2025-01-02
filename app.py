@@ -16,30 +16,25 @@ def load_model_database():
     """Load model database with SD 1.5 models including Realistic Vision and ControlNet"""
     try:
         with open("model_database.json", 'r') as f:
-            return json.load(f)
+            db = json.load(f)
+            # Flatten the nested structure for template rendering
+            flattened_db = {}
+            for top_category, subcategories in db.items():
+                for subcategory, models in subcategories.items():
+                    category_name = f"{top_category} - {subcategory}"
+                    flattened_db[category_name] = models
+            return flattened_db
     except FileNotFoundError:
-        # Flattened structure for default database
         return {
-            "SD 1.5": {
-                "Base Models": [
-                    {
-                        "name": "SD 1.5",
-                        "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
-                        "type": "checkpoint",
-                        "size": "4.27GB",
-                        "required": True
-                    }
-                ],
-                "Realistic Vision Models": [
-                    {
-                        "name": "Realistic Vision V5.0",
-                        "url": "https://huggingface.co/SG161222/Realistic_Vision_V5.0_noVAE/resolve/main/Realistic_Vision_V5.0.safetensors",
-                        "type": "checkpoint",
-                        "size": "4.27GB",
-                        "required": False
-                    }
-                ]
-            }
+            "SD 1.5 - Base Models": [
+                {
+                    "name": "SD 1.5",
+                    "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors",
+                    "type": "checkpoint",
+                    "size": "4.27GB",
+                    "required": True
+                }
+            ]
         }
 
 @app.route('/', methods=['GET', 'POST'])
