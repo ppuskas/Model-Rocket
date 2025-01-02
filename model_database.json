@@ -1,1 +1,20 @@
-{}
+{
+  "Base Models": [
+    {
+      "name": "Test Base Model",
+      "url": "https://huggingface.co/test/model.safetensors",
+      "type": "checkpoint",
+      "size": "1MB",
+      "required": true
+    }
+  ],
+  "Test Models": [
+    {
+      "name": "Small Test Model",
+      "url": "https://raw.githubusercontent.com/test/small.safetensors",
+      "type": "test",
+      "size": "10KB",
+      "required": false
+    }
+  ]
+}

@@ -121,5 +121,32 @@ def index():
                          summary=summary,
                          model_database=model_database)
 
+@app.route('/test')
+def test_page():
+    """Test route with minimal model database"""
+    test_database = {
+        "Test Models": [
+            {
+                "name": "Test Model 1",
+                "url": "https://test.com/model1.safetensors",
+                "type": "test",
+                "size": "1KB",
+                "required": False
+            },
+            {
+                "name": "Test Model 2", 
+                "url": "https://test.com/model2.safetensors",
+                "type": "test",
+                "size": "1KB",
+                "required": True
+            }
+        ]
+    }
+    return render_template('index.html', 
+                         model_database=test_database,
+                         message="Test Mode Active",
+                         error=False,
+                         summary=None)
+
 if __name__ == '__main__':
     app.run(debug=True)
