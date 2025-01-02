@@ -103,8 +103,14 @@ class ModelScanner:
         return links
 
     def determine_type(self, url: str) -> str:
-        """Determine model type based on URL and filename."""
+        """Determine model type based on URL, repository source and filename."""
         url_lower = url.lower()
+        
+        # Check if it's from AnimateDiff repository's motion LoRA collection
+        if "guoyww/animatediff" in url_lower and "v2_lora_" in url_lower:
+            return "motion_lora"
+            
+        # Then fall back to URL pattern matching
         if any(x in url_lower for x in ["motion-lora", "motion_lora", "motionlora"]):
             return "motion_lora"
         elif "motion" in url_lower and "lora" in url_lower:
@@ -113,9 +119,9 @@ class ModelScanner:
             return "motion_module"
         elif "lora" in url_lower:
             return "lora"
-        elif "ipadapter" in url.lower():
+        elif "ipadapter" in url_lower:
             return "ipadapter"
-        elif any(ext in url.lower() for ext in [".safetensors", ".ckpt"]):
+        elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
             return "checkpoint"
         else:
             return "unknown"
