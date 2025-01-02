@@ -36,17 +36,17 @@
         .model-toggle {
             cursor: pointer;
             user-select: none;
-            display: inline-block;
-            position: relative;
-            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        .model-toggle:before {
-            content: '▶';
-            position: absolute;
-            left: 0;
+        .model-toggle .toggle-icon {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
             transition: transform 0.2s;
         }
-        .model-toggle.expanded:before {
+        .model-toggle.expanded .toggle-icon {
             transform: rotate(90deg);
         }
         .model-toggle:hover {
@@ -142,7 +142,7 @@
                             <div class="repo-section">
                                 <h4>{{ category }}</h4>
                                 <button type="button" class="select-all" onclick="toggleGroup('{{ category|replace(' ', '_') }}')">Select All</button>
-                                <button type="button" class="collapse-btn" onclick="toggleCollapse('{{ category|replace(' ', '_') }}')" id="collapse_{{ category|replace(' ', '_') }}">▼</button>
+                                <button type="button" class="collapse-btn" data-group="{{ category|replace(' ', '_') }}">▼</button>
                                 <div class="model-group" id="{{ category|replace(' ', '_') }}">
                                     {% for model in models %}
                                         {% if model.name and model.url %}
@@ -154,6 +154,12 @@
                                                            id="model_{{ category }}_{{ loop.index }}" 
                                                            {% if model.required %}checked{% endif %}>
                                                     <label for="model_{{ category }}_{{ loop.index }}" class="model-toggle">
+                                                        <span class="toggle-icon">▶</span>
+                                                        <input type="checkbox" 
+                                                               name="models[]" 
+                                                               value="{{ model.url }}" 
+                                                               id="model_{{ category }}_{{ loop.index }}" 
+                                                               {% if model.required %}checked{% endif %}>
                                                         {{ model.name }}
                                                         {% if model.type or model.size %}
                                                             ({% if model.type %}{{ model.type }}{% endif %}
@@ -346,52 +352,42 @@ function toggleGroup(groupId) {
 
 function toggleCollapse(groupId) {
     const group = document.getElementById(groupId);
-    const btn = document.getElementById('collapse_' + groupId);
+    const btn = document.querySelector(`button[data-group="${groupId}"]`);
     if (!group || !btn) return;
     
-    const isCollapsed = group.style.display === 'none' || !group.style.display;
+    const isCollapsed = group.style.display === 'none';
     group.style.display = isCollapsed ? 'block' : 'none';
     btn.textContent = isCollapsed ? '▼' : '▶';
-    
-    // Save state to localStorage
-    localStorage.setItem('group_' + groupId, isCollapsed ? 'expanded' : 'collapsed');
 }
 
-// Add click handlers for model toggles and group collapse
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle individual model toggles
+    // Handle model toggles
     document.querySelectorAll('.model-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            // Prevent triggering on checkbox clicks
+            // Only handle clicks on the toggle icon or label text
             if (e.target.tagName === 'INPUT') {
-                e.stopPropagation();
-                return;
+                return; // Let checkbox handle itself
             }
             
+            e.preventDefault(); // Prevent checkbox toggle on label click
+            
+            // Toggle expansion state
             this.classList.toggle('expanded');
-            const details = this.nextElementSibling;
-            if (details && details.classList.contains('model-details')) {
-                details.style.display = details.style.display === 'none' || !details.style.display ? 'block' : 'none';
+            
+            // Find and toggle details visibility
+            const details = this.closest('.model-item').querySelector('.model-details');
+            if (details) {
+                details.style.display = this.classList.contains('expanded') ? 'block' : 'none';
             }
         });
     });
 
     // Handle group collapse buttons
     document.querySelectorAll('.collapse-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const groupId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+        btn.addEventListener('click', function() {
+            const groupId = this.getAttribute('data-group');
             toggleCollapse(groupId);
         });
-    });
-
-    // Restore collapse states
-    document.querySelectorAll('.model-group').forEach(group => {
-        const groupId = group.id;
-        const savedState = localStorage.getItem('group_' + groupId);
-        if (savedState === 'collapsed') {
-            toggleCollapse(groupId);
-        }
     });
 });
 
