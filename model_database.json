@@ -30,5 +30,49 @@
             "size": "1.45GB",
             "required": false
         }
+    ],
+    "motion_modules": [
+        {
+            "name": "mm_sd_v14",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
+            "type": "motion_module",
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "mm_sd_v15",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors", 
+            "type": "motion_module",
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "mm_sd_v15_v2",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15_v2.safetensors",
+            "type": "motion_module", 
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "v3_sd15_mm",
+            "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_mm.safetensors",
+            "type": "motion_module",
+            "size": "1.62GB", 
+            "required": false
+        },
+        {
+            "name": "mm-Stabilized_high",
+            "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_high.safetensors",
+            "type": "motion_module",
+            "size": "1.62GB",
+            "required": false
+        },
+        {
+            "name": "mm-Stabilized_mid",
+            "url": "https://huggingface.co/manshoety/AD_Stabilized_Motion/resolve/main/mm-Stabilized_mid.safetensors",
+            "type": "motion_module", 
+            "size": "1.62GB",
+            "required": false
+        }
     ]
 }
