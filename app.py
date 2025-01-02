@@ -15,37 +15,65 @@ app = Flask(__name__)
 def load_model_database():
     """Load default model database with hardcoded models"""
     return {
-        "Base Models": [
+        "IP-Adapter Models": [
             {
-                "name": "SDXL 1.0 Base",
-                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
-                "type": "checkpoint",
-                "size": "6.46GB",
-                "required": True
+                "name": "IP-Adapter SDXL Base",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter_sdxl_vit-h.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
             },
             {
-                "name": "SDXL 1.0 Refiner",
-                "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors",
-                "type": "checkpoint",
-                "size": "6.46GB",
+                "name": "IP-Adapter Plus SDXL",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
+                "required": False
+            },
+            {
+                "name": "IP-Adapter Plus Face SDXL",
+                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus-face_sdxl_vit-h.safetensors",
+                "type": "ipadapter",
+                "size": "402MB",
                 "required": False
             }
         ],
-        "Motion Modules": [
+        "ControlNet Models": [
             {
-                "name": "MM SDXL v1.0",
+                "name": "ControlNet SDXL Canny",
+                "url": "https://huggingface.co/stabilityai/control-lora/resolve/main/control-LoRAs-rank256/control-lora-canny-rank256.safetensors",
+                "type": "controlnet",
+                "size": "1.5GB",
+                "required": False
+            },
+            {
+                "name": "ControlNet SDXL Depth",
+                "url": "https://huggingface.co/stabilityai/control-lora/resolve/main/control-LoRAs-rank256/control-lora-depth-rank256.safetensors",
+                "type": "controlnet",
+                "size": "1.5GB",
+                "required": False
+            }
+        ],
+        "AnimateDiff Models": [
+            {
+                "name": "AnimateDiff SDXL",
                 "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sdxl_v10_beta.safetensors",
                 "type": "motion_module",
                 "size": "1.62GB",
                 "required": False
-            }
-        ],
-        "IP-Adapter Models": [
+            },
             {
-                "name": "IP-Adapter SDXL",
-                "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sdxl_vit-h.safetensors",
-                "type": "ipadapter",
-                "size": "402MB",
+                "name": "AnimateDiff SD1.5",
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.safetensors",
+                "type": "motion_module",
+                "size": "1.62GB",
+                "required": False
+            },
+            {
+                "name": "Motion LoRA SDXL",
+                "url": "https://huggingface.co/guoyww/animatediff/resolve/main/motion_lora_sdxl.safetensors",
+                "type": "motion_lora",
+                "size": "50MB",
                 "required": False
             }
         ]
@@ -75,12 +103,16 @@ def index():
             import contextlib
             output = io.StringIO()
             with contextlib.redirect_stdout(output):
-                asyncio.run(manage_main())
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                loop.run_until_complete(manage_main())
+                loop.close()
             
             summary = output.getvalue()
             message = "Successfully downloaded selected models"
         except Exception as e:
-            message = f"Error during download: {str(e)}"
+            import traceback
+            message = f"Error during download: {str(e)}\n{traceback.format_exc()}"
             error = True
 
     return render_template('index.html', 
