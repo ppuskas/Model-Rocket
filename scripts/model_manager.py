@@ -120,7 +120,7 @@ class ModelManager:
                         logging.info(f"Skipping existing model: {target_path.name}")
                         continue
 
-                    logging.info(f"Downloading from {url} to {target_path}")
+                    logging.info(f"Downloading from {url} to {target_path.absolute()}")
                     await self.download_file(url, target_path)
                     logging.info(f"Successfully downloaded {target_path.name}")
                 except Exception as e:
@@ -177,7 +177,7 @@ class ModelManager:
                         logging.info(f"Skipping existing model: {target_path.name}")
                         continue
 
-                    logging.info(f"Downloading {model['name']} to {target_path}")
+                    logging.info(f"Downloading {model['name']} to {target_path.absolute()}")
                     await self.download_file(model['url'], target_path)
                     logging.info(f"Successfully downloaded {model['name']}")
                 except Exception as e:
