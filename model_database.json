@@ -134,6 +134,13 @@
     ],
     "AnimateDiff Models": [
       {
+        "name": "TemporalDiff v1",
+        "url": "https://huggingface.co/CiaraRowles/TemporalDiff/resolve/main/temporaldiff-v1-animatediff.safetensors",
+        "type": "motion_module",
+        "size": "1.62GB",
+        "required": false
+      },
+      {
         "name": "MM SD v1.4",
         "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.safetensors",
         "type": "motion_module",
