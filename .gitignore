@@ -23,6 +23,7 @@ var/
 # Virtual Environment
 venv/
 ENV/
+aider/
 
 # IDE
 .idea/
@@ -42,3 +43,4 @@ Thumbs.db
 # Logs
 *.log
 logs/
+.aider*
