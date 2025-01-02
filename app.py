@@ -78,9 +78,9 @@ def index():
                 asyncio.run(manage_main())
             
             summary = output.getvalue()
-            message = f"Successfully completed {action}"
+            message = "Successfully downloaded selected models"
         except Exception as e:
-            message = f"Error during {action}: {str(e)}"
+            message = f"Error during download: {str(e)}"
             error = True
 
     return render_template('index.html', 
