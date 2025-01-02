@@ -107,28 +107,56 @@ class ModelManager:
                     logging.error(f"Failed to download from {url}: {str(e)}")
             return
 
-        # Original functionality for downloading by model types
+        # Handle direct URL downloads
+        if model_urls:
+            for url in model_urls:
+                try:
+                    # Determine model type from URL
+                    url_lower = url.lower()
+                    if "motion" in url_lower and "lora" in url_lower:
+                        model_type = "motion_lora"
+                    elif "motion" in url_lower:
+                        model_type = "motion_module"
+                    elif "lora" in url_lower:
+                        model_type = "lora"
+                    elif "ipadapter" in url_lower:
+                        model_type = "ipadapter"
+                    elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
+                        model_type = "checkpoint"
+                    else:
+                        model_type = "unknown"
+
+                    target_dir = self.get_target_directory(model_type)
+                    target_path = target_dir / Path(url).name
+                    
+                    if target_path.exists():
+                        logging.info(f"Skipping existing model: {target_path.name}")
+                        continue
+
+                    logging.info(f"Downloading from {url} to {target_path}")
+                    await self.download_file(url, target_path)
+                    logging.info(f"Successfully downloaded {target_path.name}")
+                except Exception as e:
+                    logging.error(f"Failed to download from {url}: {str(e)}")
+            return
+
+        # Handle model database downloads
         if not model_types:
             model_types = list(self.model_database.keys())
             
-        for model_type in model_types:
-            if model_type not in self.model_database:
-                continue
-
-        # Original functionality for downloading by model types
         for category, models in self.model_database.items():
             if model_types and category not in model_types:
                 continue
             
             for model in models:
-                target_dir = self.get_target_directory(model['type'])
-                target_path = target_dir / Path(model['url']).name
-
-                if target_path.exists():
-                    logging.info(f"Skipping existing model: {target_path.name}")
-                    continue
-
                 try:
+                    target_dir = self.get_target_directory(model['type'])
+                    target_path = target_dir / Path(model['url']).name
+
+                    if target_path.exists():
+                        logging.info(f"Skipping existing model: {target_path.name}")
+                        continue
+
                     logging.info(f"Downloading {model['name']} to {target_path}")
                     await self.download_file(model['url'], target_path)
                     logging.info(f"Successfully downloaded {model['name']}")
