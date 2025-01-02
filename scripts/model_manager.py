@@ -70,25 +70,26 @@ class ModelManager:
         if model_urls:
             # Download specific models by URL
             for url in model_urls:
-                # For direct URLs, we need to determine the model type from the URL
-                model_type = "unknown"
-                if "motion" in url.lower():
-                    model_type = "motion_module"
-                elif "lora" in url.lower():
-                    model_type = "lora"
-                elif "ip-adapter" in url.lower():
-                    model_type = "ipadapter"
-                elif any(ext in url.lower() for ext in [".safetensors", ".ckpt"]):
-                    model_type = "checkpoint"
-                
-                target_dir = self.get_target_directory(model_type)
-                target_path = target_dir / Path(url).name
-                
-                if target_path.exists():
-                    logging.info(f"Skipping existing model: {target_path.name}")
-                    continue
-
                 try:
+                    # For direct URLs, determine model type from URL
+                    model_type = "unknown"
+                    url_lower = url.lower()
+                    if "motion" in url_lower:
+                        model_type = "motion_module"
+                    elif "lora" in url_lower:
+                        model_type = "lora"
+                    elif "ip-adapter" in url_lower:
+                        model_type = "ipadapter"
+                    elif any(ext in url_lower for ext in [".safetensors", ".ckpt"]):
+                        model_type = "checkpoint"
+                    
+                    target_dir = self.get_target_directory(model_type)
+                    target_path = target_dir / Path(url).name
+                    
+                    if target_path.exists():
+                        logging.info(f"Skipping existing model: {target_path.name}")
+                        continue
+
                     logging.info(f"Downloading from {url} to {target_path}")
                     await self.download_file(url, target_path)
                     logging.info(f"Successfully downloaded {target_path.name}")
