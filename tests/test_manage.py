@@ -24,8 +24,8 @@ async def test_get_default_path():
         
     # Test Windows detection
     if system == "windows":
-        expected = os.path.expanduser("~/ComfyUI")
-        assert path == expected
+        expected = Path(os.path.expanduser("~/ComfyUI"))
+        assert Path(path) == expected
         assert ":" in path  # Windows paths have drive letter
         return
         
